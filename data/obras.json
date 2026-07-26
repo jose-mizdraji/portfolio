@@ -99,7 +99,10 @@
       "precio": 12586.26,
       "mostrarPrecio": true,
       "imagenPrincipal": "/portfolio/assets/images/paisaje interior ..jpg",
-      "galeria": [],
+      "galeria": [
+        "/portfolio/assets/images/obras/1000251234.jpg",
+        "/portfolio/assets/images/obras/1000251235.jpg"
+      ],
       "fechaCarga": "2026-07-26T13:28"
     }
   ],
