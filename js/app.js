@@ -273,7 +273,7 @@ const App = {
             : `<a href="#contacto" class="btn">Ir a Contacto</a>`}
           <div class="footer-social" style="margin-top:2rem; justify-content:center;">
             ${contact.instagram ? `<a href="https://instagram.com/${this.escapeHtml(contact.instagram.replace('@', ''))}" target="_blank" rel="noopener noreferrer">Instagram</a>` : ''}
-            ${contact.facebook ? `<a href="${this.escapeHtml(contact.facebook)}" target="_blank" rel="noopener noreferrer">Facebook</a>` : ''}
+            ${contact.facebook ? `<a href="${this.escapeHtml(this.sanitizeUrl(contact.facebook))}" target="_blank" rel="noopener noreferrer">Facebook</a>` : ''}
           </div>
         </div>
       </section>
@@ -646,7 +646,7 @@ const App = {
               ${contact.facebook ? `
               <div class="contact-item">
                 <div class="icon">f</div>
-                <div><strong>Facebook</strong><a href="${this.escapeHtml(contact.facebook)}" target="_blank" rel="noopener noreferrer">Ver página</a></div>
+                <div><strong>Facebook</strong><a href="${this.escapeHtml(this.sanitizeUrl(contact.facebook))}" target="_blank" rel="noopener noreferrer">Ver página</a></div>
               </div>` : ''}
 
               ${contact.whatsapp ? `
@@ -722,6 +722,16 @@ const App = {
     if (!path) return '';
     // Quitar cualquier "/" o secuencia de directorios al inicio hasta llegar a "assets/"
     return path.replace(/^(\/portfolio)?\//, '');
+  },
+
+  // Valida que una URL sea https:// o http:// antes de usarla en un href.
+  // escapeHtml() NO protege contra href="javascript:..." porque ese string
+  // no tiene caracteres HTML especiales. Esta función sí lo bloquea.
+  sanitizeUrl(url) {
+    if (!url) return '';
+    const trimmed = String(url).trim();
+    if (/^https?:\/\//i.test(trimmed)) return trimmed;
+    return ''; // bloquear javascript:, data:, y cualquier otro protocolo
   },
 
   escapeHtml(str) {

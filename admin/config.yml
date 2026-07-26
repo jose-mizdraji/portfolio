@@ -10,6 +10,10 @@ backend:
 media_folder: assets/images
 public_folder: /portfolio/assets/images
 
+media_library:
+  config:
+    max_file_size: 2000000  # 2MB máximo por imagen
+
 slug:
   encoding: unicode
   clean_accents: false
