@@ -84,6 +84,23 @@
       "imagenPrincipal": "portfolio/assets/images/obras/20260223_092734.png",
       "galeria": [],
       "fechaCarga": "2026-01-01"
+    },
+    {
+      "id": "pintura002",
+      "titulo": "otra pintura mas",
+      "categoria": "Pinturas",
+      "año": 2015,
+      "tecnica": "Mixta",
+      "materiales": "todos",
+      "medidas": "100 x 12 x 25",
+      "serie": "pruebas",
+      "descripcion": "este es un ejemplo",
+      "estado": "disponible",
+      "precio": 12586.26,
+      "mostrarPrecio": true,
+      "imagenPrincipal": "/portfolio/assets/images/paisaje interior ..jpg",
+      "galeria": [],
+      "fechaCarga": "2026-07-26T13:28"
     }
   ],
   "_pending_review": [
