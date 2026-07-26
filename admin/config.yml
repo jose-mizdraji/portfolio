@@ -1,23 +1,14 @@
 # yaml-language-server: $schema=https://unpkg.com/@sveltia/cms/schema/sveltia-cms.json
 #
-# Config de Sveltia CMS (sucesor activamente mantenido de Decap/Netlify CMS,
-# mismo formato de config). Doc: https://sveltiacms.app/en/docs/
+# Config de Sveltia CMS. Doc: https://sveltiacms.app/en/docs/
 
 backend:
   name: github
   repo: jose-mizdraji/portfolio
   branch: main
-  # A propósito SIN "base_url": no usamos el flujo OAuth (que requeriría
-  # desplegar y mantener un servidor intermediario). En la pantalla de
-  # login de /admin, usar "Sign In with Token" y pegar el PAT de GitHub.
-  # Instrucciones completas en README.md.
 
-# Carpeta donde se guardan TODAS las imágenes subidas desde el panel.
-# Sin barra inicial para que funcione en subdirectorio (/portfolio/).
 media_folder: assets/images
 public_folder: /portfolio/assets/images
-
-locale: es
 
 slug:
   encoding: unicode
@@ -61,8 +52,8 @@ collections:
               - label: "Imagen principal"
                 name: imagenPrincipal
                 widget: image
-                hint: "JPG o PNG. Recomendado: 1200×900px, menos de 1MB. Cualquier nombre de archivo."
-              - label: "Galería (fotos adicionales de la misma obra)"
+                hint: "JPG o PNG. Recomendado: 1200×900px, menos de 1MB."
+              - label: "Galería (fotos adicionales)"
                 name: galeria
                 widget: list
                 required: false
@@ -84,7 +75,7 @@ collections:
         file: data/bio.json
         fields:
           - { label: Nombre completo, name: nombre, widget: string }
-          - { label: "Subtítulo (debajo del nombre en el inicio)", name: subtitulo, widget: string }
+          - { label: "Subtítulo", name: subtitulo, widget: string }
           - { label: "Lugar y fecha de nacimiento", name: nacimiento, widget: string, required: false }
           - { label: "Título profesional", name: tituloProfesional, widget: string, required: false }
 
@@ -92,32 +83,30 @@ collections:
             name: imagenHero
             widget: image
             required: false
-            hint: "Imagen principal de la sección de bienvenida. Recomendado: horizontal, 1600×900px o más, JPG."
+            hint: "Horizontal, 1600×900px o más, JPG."
 
           - label: "Foto de perfil del artista"
             name: fotoPerfil
             widget: image
             required: false
-            hint: "Foto de José. Aparece en Trayectoria. Recomendado: cuadrada, 600×600px mínimo, JPG."
+            hint: "Cuadrada, 600×600px mínimo, JPG."
 
           - label: "Texto introductorio del inicio"
             name: textoInicio
             widget: text
             required: false
-            hint: "Párrafo corto debajo del subtítulo en la sección de bienvenida."
 
           - label: "Imágenes de las 4 categorías (tarjetas del inicio)"
             name: imagenesCategorias
             widget: object
             required: false
-            hint: "Una imagen por disciplina para las tarjetas del inicio. Recomendado: vertical, 800×1000px, JPG."
             fields:
-              - { label: "Pinturas", name: Pinturas, widget: image, required: false }
-              - { label: "Dibujos",  name: Dibujos,  widget: image, required: false }
-              - { label: "Grabados", name: Grabados, widget: image, required: false }
+              - { label: "Pinturas",   name: Pinturas,   widget: image, required: false }
+              - { label: "Dibujos",    name: Dibujos,    widget: image, required: false }
+              - { label: "Grabados",   name: Grabados,   widget: image, required: false }
               - { label: "Esculturas", name: Esculturas, widget: image, required: false }
 
-          - label: "Biografía (párrafos separados por una línea en blanco)"
+          - label: "Biografía"
             name: biografia
             widget: text
 
@@ -126,36 +115,36 @@ collections:
             widget: list
             summary: "{{año}} — {{titulo}}"
             fields:
-              - { label: Año, name: año, widget: string }
-              - { label: Título, name: titulo, widget: string }
-              - { label: Institución, name: institucion, widget: string, required: false }
+              - { label: Año,          name: año,         widget: string, required: false }
+              - { label: Título,       name: titulo,      widget: string }
+              - { label: Institución,  name: institucion, widget: string, required: false }
 
           - label: Premios y distinciones
             name: premios
             widget: list
             summary: "{{año}} — {{titulo}}"
             fields:
-              - { label: Año, name: año, widget: string }
+              - { label: Año,    name: año,   widget: string, required: false }
               - { label: Título, name: titulo, widget: string }
-              - { label: Lugar, name: lugar, widget: string, required: false }
+              - { label: Lugar,  name: lugar,  widget: string, required: false }
 
           - label: Exposiciones individuales
             name: exposicionesIndividuales
             widget: list
             summary: "{{año}} — {{titulo}}"
             fields:
-              - { label: Año, name: año, widget: string }
+              - { label: Año,    name: año,   widget: string, required: false }
               - { label: Título, name: titulo, widget: string }
-              - { label: Lugar, name: lugar, widget: string }
+              - { label: Lugar,  name: lugar,  widget: string, required: false }
 
           - label: Exposiciones colectivas
             name: exposicionesColectivas
             widget: list
             summary: "{{año}} — {{titulo}}"
             fields:
-              - { label: Año, name: año, widget: string }
+              - { label: Año,    name: año,   widget: string, required: false }
               - { label: Título, name: titulo, widget: string }
-              - { label: Lugar, name: lugar, widget: string }
+              - { label: Lugar,  name: lugar,  widget: string, required: false }
 
           - label: "Colecciones (museos con obra en su acervo)"
             name: colecciones
@@ -169,10 +158,10 @@ collections:
             required: false
             summary: "{{año}} — {{titulo}}"
             fields:
-              - { label: Año, name: año, widget: string }
-              - { label: Título, name: titulo, widget: string }
+              - { label: Año,       name: año,       widget: string, required: false }
+              - { label: Título,    name: titulo,    widget: string }
               - { label: Editorial, name: editorial, widget: string, required: false }
-              - { label: Lugar, name: lugar, widget: string, required: false }
+              - { label: Lugar,     name: lugar,     widget: string, required: false }
 
   # ─────────────────────────────────────────────────────────────────────
   # CONTACTO
@@ -185,8 +174,8 @@ collections:
         label: Datos de contacto
         file: data/contacto.json
         fields:
-          - { label: Email, name: email, widget: string, required: false }
-          - { label: "Instagram (usuario, con o sin @)", name: instagram, widget: string, required: false }
-          - { label: "Facebook (URL completa)", name: facebook, widget: string, required: false }
-          - { label: "WhatsApp (con código de país, ej: +5493794000000)", name: whatsapp, widget: string, required: false }
-          - { label: "Dirección / ubicación", name: direccion, widget: string, required: false }
+          - { label: Email,       name: email,     widget: string, required: false }
+          - { label: Instagram,   name: instagram, widget: string, required: false }
+          - { label: Facebook,    name: facebook,  widget: string, required: false }
+          - { label: WhatsApp,    name: whatsapp,  widget: string, required: false }
+          - { label: Ubicación,   name: direccion, widget: string, required: false }
