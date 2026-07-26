@@ -184,6 +184,11 @@ const App = {
     const bio = this.data.bio;
     const contact = this.data.contact;
 
+    // Imágenes leídas desde bio.json (editables desde el panel CMS)
+    const heroImg = bio.imagenHero || '';
+    const cats = bio.imagenesCategorias || {};
+    const textoInicio = bio.textoInicio || 'Su práctica abarca la pintura, el dibujo, el grabado y la escultura, cruzando memoria, entorno y materialidad.';
+
     return `
       <section class="hero">
         <div class="container">
@@ -192,11 +197,13 @@ const App = {
               <div class="hero-label">Artista Visual</div>
               <h1 class="hero-title">${this.escapeHtml(bio.nombre)}</h1>
               <p class="hero-subtitle">${this.escapeHtml(bio.subtitulo)}</p>
-              <p class="hero-text">Su práctica abarca la pintura, el dibujo, el grabado y la escultura, cruzando memoria, entorno y materialidad.</p>
+              <p class="hero-text">${this.escapeHtml(textoInicio)}</p>
               <a href="#obras" class="btn">Ver obras</a>
             </div>
             <div class="hero-image fade-in stagger-1">
-              <img src="assets/images/hero.jpg" alt="Obra destacada de ${this.escapeHtml(bio.nombre)}" loading="eager" onerror="this.style.display='none'">
+              ${heroImg
+                ? `<img src="${this.escapeHtml(this.normalizePath(heroImg))}" alt="Obra destacada de ${this.escapeHtml(bio.nombre)}" loading="eager" onerror="this.parentElement.style.display='none'">`
+                : '<div class="hero-placeholder" style="width:100%;aspect-ratio:4/3;background:linear-gradient(135deg,#e8e6e1,#c5bfb5);"></div>'}
             </div>
           </div>
         </div>
@@ -209,15 +216,19 @@ const App = {
             <p>Cuatro lenguajes, una misma búsqueda</p>
           </div>
           <div class="categories-grid">
-            ${CATEGORIES.map(cat => `
+            ${CATEGORIES.map(cat => {
+              const imgSrc = cats[cat] || '';
+              return `
               <a class="category-card" href="#obras/${encodeURIComponent(cat)}">
-                <img src="assets/images/cat-${cat.toLowerCase()}.jpg" alt="${this.escapeHtml(cat)}" loading="lazy" onerror="this.style.display='none'">
+                ${imgSrc
+                  ? `<img src="${this.escapeHtml(this.normalizePath(imgSrc))}" alt="${this.escapeHtml(cat)}" loading="lazy" onerror="this.style.display='none'">`
+                  : ''}
                 <div class="category-overlay">
                   <h3>${this.escapeHtml(cat)}</h3>
                   <span>Ver colección</span>
                 </div>
-              </a>
-            `).join('')}
+              </a>`;
+            }).join('')}
           </div>
         </div>
       </section>
@@ -279,7 +290,7 @@ const App = {
     return `
       <a class="work-card fade-in" href="#obra/${encodeURIComponent(work.id)}">
         <div class="work-card-image">
-          <img src="${this.escapeHtml(work.imagenPrincipal)}" alt="${this.escapeHtml(work.titulo)}" loading="lazy" onerror="this.parentElement.style.background='linear-gradient(135deg,#e8e6e1,#d5d0c8)'">
+          <img src="${this.escapeHtml(this.normalizePath(work.imagenPrincipal))}" alt="${this.escapeHtml(work.titulo)}" loading="lazy" onerror="this.parentElement.style.background='linear-gradient(135deg,#e8e6e1,#d5d0c8)'">
           <span class="work-status ${statusClass}">${statusText}</span>
         </div>
         <div class="work-card-info">
@@ -421,7 +432,7 @@ const App = {
     const mailtoLink = contact.email ? `mailto:${contact.email}?subject=${mailtoSubject}&body=${mailtoBody}` : null;
 
     const galleryThumbs = (work.galeria && work.galeria.length > 0)
-      ? work.galeria.map((img, i) => `<img src="${this.escapeHtml(img)}" alt="${this.escapeHtml(work.titulo)} - vista ${i + 2}" class="thumb-btn ${i === 0 ? 'active' : ''}" data-src="${this.escapeHtml(img)}" tabindex="0" role="button" loading="lazy">`).join('')
+      ? work.galeria.map((img, i) => `<img src="${this.escapeHtml(this.normalizePath(img))}" alt="${this.escapeHtml(work.titulo)} - vista ${i + 2}" class="thumb-btn ${i === 0 ? 'active' : ''}" data-src="${this.escapeHtml(this.normalizePath(img))}" tabindex="0" role="button" loading="lazy">`).join('')
       : '';
 
     return `
@@ -433,7 +444,7 @@ const App = {
           <div class="artwork-hero">
             <div class="artwork-gallery">
               <div class="artwork-main-image">
-                <img id="main-artwork-img" src="${this.escapeHtml(work.imagenPrincipal)}" alt="${this.escapeHtml(work.titulo)}" loading="eager" onerror="this.parentElement.innerHTML='<div style=\\'padding:4rem;color:var(--color-text-muted)\\'>Imagen no disponible</div>'">
+                <img id="main-artwork-img" src="${this.escapeHtml(this.normalizePath(work.imagenPrincipal))}" alt="${this.escapeHtml(work.titulo)}" loading="eager" onerror="this.parentElement.innerHTML='<div style=\\'padding:4rem;color:var(--color-text-muted)\\'>Imagen no disponible</div>'">
               </div>
               ${galleryThumbs ? `<div class="artwork-thumbs">${galleryThumbs}</div>` : ''}
             </div>
@@ -507,6 +518,7 @@ const App = {
           </div>
           <div class="bio-grid">
             <aside class="bio-sidebar">
+              ${bio.fotoPerfil ? `<img src="${this.escapeHtml(this.normalizePath(bio.fotoPerfil))}" alt="Foto de ${this.escapeHtml(bio.nombre)}" style="width:100%;aspect-ratio:1;object-fit:cover;margin-bottom:1.5rem;border:1px solid var(--color-border-light);" loading="lazy">` : ''}
               <nav aria-label="Secciones de trayectoria">
                 <a href="#trayectoria" class="active" onclick="App.scrollToSection('bio-biografia', event)">Biografía</a>
                 <a href="#trayectoria" onclick="App.scrollToSection('bio-formacion', event)">Formación</a>
@@ -657,6 +669,25 @@ const App = {
   },
 
   // ---------- Utilidades ----------
+
+  // Sveltia CMS (y Decap) guardan rutas de imagen con "/" inicial absoluto
+  // desde la raíz del dominio. En un sitio deployado en subdirectorio
+  // (/portfolio/) eso rompe las imágenes porque el navegador busca en
+  // https://jose-mizdraji.github.io/assets/... en vez de .../portfolio/assets/...
+  // Esta función normaliza ambas variantes a ruta relativa (sin "/" inicial),
+  // lo que siempre funciona correctamente desde index.html.
+  //
+  // Ejemplos de entrada → salida:
+  //   "/assets/images/obras/foto.jpg"    → "assets/images/obras/foto.jpg"
+  //   "/portfolio/assets/images/foto.jpg" → "assets/images/foto.jpg"  (futuro, si se corrige config.yml)
+  //   "assets/images/obras/foto.jpg"     → sin cambio (ya es relativa)
+  //   ""  / null / undefined             → ""
+  normalizePath(path) {
+    if (!path) return '';
+    // Quitar cualquier "/" o secuencia de directorios al inicio hasta llegar a "assets/"
+    return path.replace(/^(\/portfolio)?\//, '');
+  },
+
   escapeHtml(str) {
     if (str === null || str === undefined) return '';
     return String(str)

@@ -9,12 +9,13 @@ backend:
   branch: main
   # A propósito SIN "base_url": no usamos el flujo OAuth (que requeriría
   # desplegar y mantener un servidor intermediario). En la pantalla de
-  # login de /admin, hay que tocar "Sign In with Token" (no "Login with
-  # GitHub") y pegar un Personal Access Token de GitHub con permisos
-  # SOLO sobre este repo. Instrucciones paso a paso en README.md.
+  # login de /admin, usar "Sign In with Token" y pegar el PAT de GitHub.
+  # Instrucciones completas en README.md.
 
-media_folder: assets/images/obras
-public_folder: assets/images/obras
+# Carpeta donde se guardan TODAS las imágenes subidas desde el panel.
+# Sin barra inicial para que funcione en subdirectorio (/portfolio/).
+media_folder: assets/images
+public_folder: /portfolio/assets/images
 
 locale: es
 
@@ -23,6 +24,10 @@ slug:
   clean_accents: false
 
 collections:
+
+  # ─────────────────────────────────────────────────────────────────────
+  # OBRAS
+  # ─────────────────────────────────────────────────────────────────────
   - name: obras
     label: Obras
     icon: palette
@@ -30,16 +35,18 @@ collections:
       - name: obras
         label: Catálogo de obras
         file: data/obras.json
+        media_folder: assets/images/obras
+        public_folder: /portfolio/assets/images/obras
         fields:
           - label: Obras
             name: obras
             widget: list
             summary: "{{titulo}} — {{categoria}} ({{año}})"
             fields:
-              - label: "ID único (sin espacios ni tildes)"
+              - label: "ID único (sin espacios ni tildes, ej: retrato-ibera-2026)"
                 name: id
                 widget: string
-                pattern: ["^[a-z0-9-]+$", "Solo minúsculas, números y guiones, ej: retrato-ibera-2026"]
+                pattern: ["^[a-z0-9-]+$", "Solo minúsculas, números y guiones"]
               - { label: Título, name: titulo, widget: string }
               - { label: Categoría, name: categoria, widget: select, options: [Pinturas, Dibujos, Grabados, Esculturas] }
               - { label: Año, name: año, widget: number, value_type: int }
@@ -50,33 +57,97 @@ collections:
               - { label: Descripción, name: descripcion, widget: text }
               - { label: Estado, name: estado, widget: select, options: [disponible, vendida, reservada] }
               - { label: "Precio en USD (opcional)", name: precio, widget: number, value_type: float, required: false }
-              - { label: "Mostrar precio en el sitio público", name: mostrarPrecio, widget: boolean, default: false }
-              - { label: "Imagen principal", name: imagenPrincipal, widget: image }
+              - { label: "Mostrar precio en el sitio", name: mostrarPrecio, widget: boolean, default: false }
+              - label: "Imagen principal"
+                name: imagenPrincipal
+                widget: image
+                hint: "JPG o PNG. Recomendado: 1200×900px, menos de 1MB. Cualquier nombre de archivo."
               - label: "Galería (fotos adicionales de la misma obra)"
                 name: galeria
                 widget: list
                 required: false
-                field: { label: Imagen, name: imagen, widget: image }
+                field:
+                  label: Imagen
+                  name: imagen
+                  widget: image
               - { label: "Fecha de carga", name: fechaCarga, widget: datetime, required: false }
-          - label: "⚠️ Notas pendientes de revisión (borrar cada una cuando esté resuelta)"
+          - label: "Notas pendientes (borrar cada una cuando esté resuelta)"
             name: _pending_review
             widget: list
             required: false
 
+  # ─────────────────────────────────────────────────────────────────────
+  # INICIO Y TRAYECTORIA
+  # ─────────────────────────────────────────────────────────────────────
   - name: bio
-    label: Trayectoria
+    label: Inicio y Trayectoria
     icon: person
     files:
       - name: bio
-        label: Biografía y trayectoria
+        label: Imágenes del inicio y datos biográficos
         file: data/bio.json
         fields:
-          - { label: Nombre, name: nombre, widget: string }
-          - { label: Subtítulo, name: subtitulo, widget: string }
+          - { label: Nombre completo, name: nombre, widget: string }
+          - { label: "Subtítulo (debajo del nombre en el inicio)", name: subtitulo, widget: string }
           - { label: "Lugar y fecha de nacimiento", name: nacimiento, widget: string, required: false }
           - { label: "Título profesional", name: tituloProfesional, widget: string, required: false }
-          - { label: "Biografía (párrafos separados por una línea en blanco)", name: biografia, widget: text }
-          - label: "Formación, becas y clínicas de arte"
+
+          - label: "── Imágenes del inicio ──────────────────────────────────────────"
+            name: _sep_imagenes
+            widget: hidden
+            default: ""
+            required: false
+
+          - label: "Imagen hero (fondo grande del inicio)"
+            name: imagenHero
+            widget: image
+            required: false
+            hint: "Imagen principal que aparece en la sección de bienvenida. Recomendado: horizontal, 1600×900px o más, JPG. Puede ser una obra representativa o una foto del taller."
+
+          - label: "Foto de perfil del artista"
+            name: fotoPerfil
+            widget: image
+            required: false
+            hint: "Foto de José que aparece en la sección Trayectoria. Recomendado: cuadrada o vertical, 600×600px mínimo, JPG."
+
+          - label: "Texto introductorio del inicio"
+            name: textoInicio
+            widget: text
+            required: false
+            hint: "Párrafo corto debajo del subtítulo en la sección de bienvenida."
+
+          - label: "Imagen para la tarjeta PINTURAS (inicio)"
+            name: imagenesCategorias.Pinturas
+            widget: image
+            required: false
+            hint: "Imagen representativa de la categoría. Recomendado: vertical, 800×1000px, JPG."
+
+          - label: "Imagen para la tarjeta DIBUJOS (inicio)"
+            name: imagenesCategorias.Dibujos
+            widget: image
+            required: false
+
+          - label: "Imagen para la tarjeta GRABADOS (inicio)"
+            name: imagenesCategorias.Grabados
+            widget: image
+            required: false
+
+          - label: "Imagen para la tarjeta ESCULTURAS (inicio)"
+            name: imagenesCategorias.Esculturas
+            widget: image
+            required: false
+
+          - label: "── Datos biográficos ────────────────────────────────────────────"
+            name: _sep_bio
+            widget: hidden
+            default: ""
+            required: false
+
+          - label: "Biografía (párrafos separados por una línea en blanco)"
+            name: biografia
+            widget: text
+
+          - label: "Formación, becas y clínicas"
             name: formacion
             widget: list
             summary: "{{año}} — {{titulo}}"
@@ -84,6 +155,7 @@ collections:
               - { label: Año, name: año, widget: string }
               - { label: Título, name: titulo, widget: string }
               - { label: Institución, name: institucion, widget: string, required: false }
+
           - label: Premios y distinciones
             name: premios
             widget: list
@@ -92,6 +164,7 @@ collections:
               - { label: Año, name: año, widget: string }
               - { label: Título, name: titulo, widget: string }
               - { label: Lugar, name: lugar, widget: string, required: false }
+
           - label: Exposiciones individuales
             name: exposicionesIndividuales
             widget: list
@@ -100,6 +173,7 @@ collections:
               - { label: Año, name: año, widget: string }
               - { label: Título, name: titulo, widget: string }
               - { label: Lugar, name: lugar, widget: string }
+
           - label: Exposiciones colectivas
             name: exposicionesColectivas
             widget: list
@@ -108,11 +182,13 @@ collections:
               - { label: Año, name: año, widget: string }
               - { label: Título, name: titulo, widget: string }
               - { label: Lugar, name: lugar, widget: string }
-          - label: "Colecciones (museos o instituciones con obra suya en su acervo)"
+
+          - label: "Colecciones (museos con obra en su acervo)"
             name: colecciones
             widget: list
             required: false
             field: { label: Colección, name: coleccion, widget: string }
+
           - label: Publicaciones
             name: publicaciones
             widget: list
@@ -123,11 +199,15 @@ collections:
               - { label: Título, name: titulo, widget: string }
               - { label: Editorial, name: editorial, widget: string, required: false }
               - { label: Lugar, name: lugar, widget: string, required: false }
-          - label: "⚠️ Notas pendientes de revisión (borrar cada una cuando esté resuelta)"
+
+          - label: "Notas pendientes (borrar cada una cuando esté resuelta)"
             name: _pending_review
             widget: list
             required: false
 
+  # ─────────────────────────────────────────────────────────────────────
+  # CONTACTO
+  # ─────────────────────────────────────────────────────────────────────
   - name: contacto
     label: Contacto
     icon: mail
@@ -138,10 +218,10 @@ collections:
         fields:
           - { label: Email, name: email, widget: string, required: false }
           - { label: "Instagram (usuario, con o sin @)", name: instagram, widget: string, required: false }
-          - { label: "Facebook (URL completa de la página)", name: facebook, widget: string, required: false }
+          - { label: "Facebook (URL completa)", name: facebook, widget: string, required: false }
           - { label: "WhatsApp (con código de país, ej: +5493794000000)", name: whatsapp, widget: string, required: false }
           - { label: "Dirección / ubicación", name: direccion, widget: string, required: false }
-          - label: "⚠️ Notas pendientes de revisión (borrar cada una cuando esté resuelta)"
+          - label: "Notas pendientes (borrar cada una cuando esté resuelta)"
             name: _pending_review
             widget: list
             required: false
