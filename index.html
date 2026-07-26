@@ -31,9 +31,10 @@
     connect-src 'self';
     object-src 'none';
     base-uri 'self';
-    form-action 'self';
+    form-action 'self' mailto:;
   ">
 
+  <meta name="referrer" content="strict-origin-when-cross-origin">
   <link rel="stylesheet" href="css/main.css">
   <script src="js/app.js" defer></script>
 </head>
@@ -65,7 +66,6 @@
         <a href="#contacto">Contacto</a>
       </div>
       <p>&copy; 2026 José Mizdraji. Todos los derechos reservados.</p>
-      <a href="https://jaga-mu.vercel.app/" target="_blank" rel="noopener noreferrer">Diseñado por Jagā Digital Hub.</a>
     </div>
   </footer>
 </body>

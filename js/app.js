@@ -429,7 +429,7 @@ const App = {
     const statusText = work.estado === 'disponible' ? 'Disponible' : work.estado === 'vendida' ? 'Vendida' : 'Reservada';
     const mailtoSubject = encodeURIComponent(`Consulta por la obra "${work.titulo}"`);
     const mailtoBody = encodeURIComponent(`Hola,\n\nMe interesa obtener información sobre la obra "${work.titulo}" (${work.año}).\n\nQuedo atento/a a su respuesta.\n\nSaludos cordiales.`);
-    const mailtoLink = contact.email ? `mailto:${contact.email}?subject=${mailtoSubject}&body=${mailtoBody}` : null;
+    const mailtoLink = contact.email ? `mailto:${this.escapeHtml(contact.email)}?subject=${mailtoSubject}&body=${mailtoBody}` : null;
 
     // Bug 2 fix: la imagen principal siempre va primero en los thumbs.
     // Antes solo se mostraban los items de work.galeria, así que después de
@@ -480,7 +480,7 @@ const App = {
 
               ${work.estado === 'disponible'
                 ? (mailtoLink
-                    ? `<a href="${mailtoLink}" class="btn btn-buy">Consultar por esta obra</a>
+                    ? `<a href="${this.escapeHtml(mailtoLink)}" class="btn btn-buy">Consultar por esta obra</a>
                        <p style="font-size:0.75rem; color:var(--color-text-muted); margin-top:0.75rem; text-align:center;">Se abrirá tu cliente de correo con los datos de la obra</p>`
                     : `<a href="#contacto" class="btn btn-buy">Consultar por esta obra</a>`)
                 : work.estado === 'reservada'
@@ -687,6 +687,13 @@ const App = {
         e.preventDefault();
         const contact = this.data.contact;
         if (!contact.email) return;
+        // Validar que contact.email tiene formato email antes de usarlo en location.href.
+        // El dato viene del CMS (usuario confiable), pero la validación es defensa en profundidad.
+        const emailRegex = /^[a-zA-Z0-9._%+\-]+@[a-zA-Z0-9.\-]+\.[a-zA-Z]{2,}$/;
+        if (!emailRegex.test(contact.email)) {
+          console.warn('Email de contacto con formato inválido — verificar en el panel CMS.');
+          return;
+        }
         const name = document.getElementById('contact-name').value;
         const email = document.getElementById('contact-email').value;
         const subject = document.getElementById('contact-subject').value;
