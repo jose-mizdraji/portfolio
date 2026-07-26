@@ -1,24 +1,19 @@
 {
-  "_pending_review": [
-    "TODAS las obras de este archivo son EJEMPLOS DE PLANTILLA, no obras reales de José Mizdraji. Se marcaron a propósito con el prefijo '[EJEMPLO]' en el título para que sea imposible confundirlas con el catálogo real, tanto mirando este archivo como mirando el sitio publicado.",
-    "Antes de publicar: borrar estas 8 obras de ejemplo desde el panel de administración y cargar las obras reales (una por una, o pidiéndole a José que las cargue él mismo).",
-    "Las imágenes referenciadas (placeholder-*.jpg) no existen en assets/images/ — el sitio muestra un fondo gris en su lugar hasta que se suban fotos reales."
-  ],
   "obras": [
     {
-      "id": "ejemplo-pintura-01",
-      "titulo": "[EJEMPLO] Obra de pintura — reemplazar",
+      "id": "pintura-01",
+      "titulo": "Está es una pintura de ejemplo",
       "categoria": "Pinturas",
       "año": 2024,
       "tecnica": "Técnica de ejemplo (ej: acrílico sobre tela)",
-      "materiales": "Materiales de ejemplo",
+      "materiales": "Materiales de ejemplo y mas",
       "medidas": "70 x 50 cm",
-      "serie": "",
+      "serie": "Pandemia",
       "descripcion": "Este es un registro de ejemplo para mostrar cómo se ve una Pintura en el catálogo. Reemplazalo por una obra real desde el panel de administración.",
       "estado": "disponible",
       "precio": 0.1,
       "mostrarPrecio": true,
-      "imagenPrincipal": "assets/images/placeholder-pintura.jpg",
+      "imagenPrincipal": "/assets/images/obras/1000251233.jpg",
       "galeria": [],
       "fechaCarga": "2026-01-01"
     },
@@ -35,7 +30,7 @@
       "estado": "vendida",
       "precio": 0,
       "mostrarPrecio": false,
-      "imagenPrincipal": "assets/images/placeholder-pintura2.jpg",
+      "imagenPrincipal": "/assets/images/obras/1000251234.jpg",
       "galeria": [],
       "fechaCarga": "2026-01-01"
     },
@@ -52,7 +47,7 @@
       "estado": "disponible",
       "precio": 0,
       "mostrarPrecio": false,
-      "imagenPrincipal": "assets/images/placeholder-dibujo.jpg",
+      "imagenPrincipal": "/assets/images/obras/1000251235.jpg",
       "galeria": [],
       "fechaCarga": "2026-01-01"
     },
@@ -90,5 +85,10 @@
       "galeria": [],
       "fechaCarga": "2026-01-01"
     }
+  ],
+  "_pending_review": [
+    "TODAS las obras de este archivo son EJEMPLOS DE PLANTILLA, no obras reales de José Mizdraji. Se marcaron a propósito con el prefijo '[EJEMPLO]' en el título para que sea imposible confundirlas con el catálogo real, tanto mirando este archivo como mirando el sitio publicado.",
+    "Antes de publicar: borrar estas 8 obras de ejemplo desde el panel de administración y cargar las obras reales (una por una, o pidiéndole a José que las cargue él mismo).",
+    "Las imágenes referenciadas (placeholder-*.jpg) no existen en assets/images/ — el sitio muestra un fondo gris en su lugar hasta que se suban fotos reales."
   ]
 }
