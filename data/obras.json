@@ -82,7 +82,10 @@
       "precio": 0,
       "mostrarPrecio": false,
       "imagenPrincipal": "/portfolio/assets/images/20260119_124224.png",
-      "galeria": [],
+      "galeria": [
+        "/portfolio/assets/images/20251108_123120.png",
+        "/portfolio/assets/images/Photoroom-20251215_161219340.png"
+      ],
       "fechaCarga": "2026-01-01"
     },
     {
