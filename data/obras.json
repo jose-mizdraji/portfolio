@@ -64,7 +64,7 @@
       "estado": "reservada",
       "precio": 0,
       "mostrarPrecio": false,
-      "imagenPrincipal": "portfolio/assets/images/obras/9632_4-jpeg_GRABADO_EJEMPLO.jpeg",
+      "imagenPrincipal": "/portfolio/assets/images/9632_4-jpeg_GRABADO_EJEMPLO.jpeg",
       "galeria": [],
       "fechaCarga": "2026-01-01"
     },
