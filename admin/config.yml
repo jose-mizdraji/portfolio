@@ -71,10 +71,6 @@ collections:
                   name: imagen
                   widget: image
               - { label: "Fecha de carga", name: fechaCarga, widget: datetime, required: false }
-          - label: "Notas pendientes (borrar cada una cuando esté resuelta)"
-            name: _pending_review
-            widget: list
-            required: false
 
   # ─────────────────────────────────────────────────────────────────────
   # INICIO Y TRAYECTORIA
@@ -178,11 +174,6 @@ collections:
               - { label: Editorial, name: editorial, widget: string, required: false }
               - { label: Lugar, name: lugar, widget: string, required: false }
 
-          - label: "Notas pendientes (borrar cada una cuando esté resuelta)"
-            name: _pending_review
-            widget: list
-            required: false
-
   # ─────────────────────────────────────────────────────────────────────
   # CONTACTO
   # ─────────────────────────────────────────────────────────────────────
@@ -199,7 +190,3 @@ collections:
           - { label: "Facebook (URL completa)", name: facebook, widget: string, required: false }
           - { label: "WhatsApp (con código de país, ej: +5493794000000)", name: whatsapp, widget: string, required: false }
           - { label: "Dirección / ubicación", name: direccion, widget: string, required: false }
-          - label: "Notas pendientes (borrar cada una cuando esté resuelta)"
-            name: _pending_review
-            widget: list
-            required: false
