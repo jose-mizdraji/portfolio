@@ -35,20 +35,23 @@
       "fechaCarga": "2026-01-01"
     },
     {
-      "id": "ejemplo-dibujo-01",
-      "titulo": "[EJEMPLO] Obra de dibujo — reemplazar",
-      "categoria": "Dibujos",
-      "año": 2024,
-      "tecnica": "Técnica de ejemplo (ej: tinta sobre papel)",
+      "id": "ejemplo-escultura-01",
+      "titulo": "Escultura Animales del monte misterioso",
+      "categoria": "Esculturas",
+      "año": 2023,
+      "tecnica": "Técnica de ejemplo (ej: talla en madera)",
       "materiales": "Materiales de ejemplo",
-      "medidas": "50 x 35 cm",
+      "medidas": "60 x 40 x 30 cm",
       "serie": "",
-      "descripcion": "Registro de ejemplo para la categoría Dibujos. Reemplazalo por una obra real.",
+      "descripcion": "Registro de ejemplo para la categoría Esculturas. Reemplazalo por una obra real.",
       "estado": "disponible",
       "precio": 0,
       "mostrarPrecio": false,
-      "imagenPrincipal": "/assets/images/obras/1000251235.jpg",
-      "galeria": [],
+      "imagenPrincipal": "/portfolio/assets/images/20260119_124224.png",
+      "galeria": [
+        "/portfolio/assets/images/20251108_123120.png",
+        "/portfolio/assets/images/Photoroom-20251215_161219340.png"
+      ],
       "fechaCarga": "2026-01-01"
     },
     {
@@ -69,23 +72,20 @@
       "fechaCarga": "2026-01-01"
     },
     {
-      "id": "ejemplo-escultura-01",
-      "titulo": "[EJEMPLO] Obra de escultura — reemplazar",
-      "categoria": "Esculturas",
-      "año": 2023,
-      "tecnica": "Técnica de ejemplo (ej: talla en madera)",
+      "id": "ejemplo-dibujo-01",
+      "titulo": "[EJEMPLO] Obra de dibujo — reemplazar",
+      "categoria": "Dibujos",
+      "año": 2024,
+      "tecnica": "Técnica de ejemplo (ej: tinta sobre papel)",
       "materiales": "Materiales de ejemplo",
-      "medidas": "60 x 40 x 30 cm",
+      "medidas": "50 x 35 cm",
       "serie": "",
-      "descripcion": "Registro de ejemplo para la categoría Esculturas. Reemplazalo por una obra real.",
+      "descripcion": "Registro de ejemplo para la categoría Dibujos. Reemplazalo por una obra real.",
       "estado": "disponible",
       "precio": 0,
       "mostrarPrecio": false,
-      "imagenPrincipal": "/portfolio/assets/images/20260119_124224.png",
-      "galeria": [
-        "/portfolio/assets/images/20251108_123120.png",
-        "/portfolio/assets/images/Photoroom-20251215_161219340.png"
-      ],
+      "imagenPrincipal": "/assets/images/obras/1000251235.jpg",
+      "galeria": [],
       "fechaCarga": "2026-01-01"
     },
     {
