@@ -30,8 +30,9 @@ collections:
       - name: obras
         label: Catálogo de obras
         file: data/obras.json
-        media_folder: assets/images/obras
-        public_folder: /portfolio/assets/images/obras
+        # NO poner media_folder/public_folder acá: a nivel de archivo Sveltia
+        # los interpreta como relativos a la carpeta del entry (data/), lo que
+        # creaba data/assets/images/obras/. Se usa el global de arriba.
         fields:
           - label: Obras
             name: obras

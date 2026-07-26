@@ -2,117 +2,114 @@
 
 Sitio estático (sin backend) para el portafolio del artista visual José Mizdraji, con panel de administración web para cargar/editar/borrar obras y contenido sin tocar código.
 
-URL final: **https://jose-mizdraji.github.io/portfolio/**
-(No `www.` — un subdominio `*.github.io` no acepta ese prefijo salvo que compren un dominio propio y lo apunten con CNAME, que es algo aparte.)
+**Sitio:** https://jose-mizdraji.github.io/portfolio/
+**Panel de administración:** https://jose-mizdraji.github.io/portfolio/admin/
+
+(No lleva `www.` — un subdominio `*.github.io` no acepta ese prefijo salvo con dominio propio apuntado por CNAME.)
+
+Diseñado por Jagā Digital Hub.
 
 ## 📁 Estructura
 
 ```
 portfolio/
 ├── index.html              # Sitio público (SPA, ruteo por #hash)
+├── 404.html                # Página de error, redirige al inicio
 ├── css/main.css
-├── js/app.js                # Toda la lógica del sitio público
-├── data/                    # Contenido editable — esto es lo que edita el CMS
-│   ├── obras.json           # Catálogo de obras (Pinturas, Dibujos, Grabados, Esculturas)
-│   ├── bio.json              # Biografía y trayectoria
-│   └── contacto.json         # Datos de contacto
-├── admin/                    # Panel de administración (Sveltia CMS)
+├── js/app.js               # Toda la lógica del sitio público
+├── data/                   # Contenido editable — esto es lo que edita el CMS
+│   ├── obras.json          # Catálogo (Pinturas, Dibujos, Grabados, Esculturas)
+│   ├── bio.json            # Imágenes del inicio + biografía y trayectoria
+│   └── contacto.json       # Datos de contacto
+├── admin/                  # Panel de administración (Sveltia CMS)
 │   ├── index.html
 │   └── config.yml
-├── assets/images/obras/       # Acá se guardan las fotos que se suben desde el panel
+├── assets/images/          # Todas las fotos subidas desde el panel
 ├── robots.txt
 ├── sitemap.xml
-└── .gitignore
+└── .nojekyll               # Evita que GitHub Pages procese el sitio con Jekyll
 ```
-
-## 🚀 Deploy en GitHub Pages
-
-1. En la cuenta **jose-mizdraji** de GitHub, creá un repo público llamado `portfolio`.
-2. Subí todo el contenido de este proyecto (manteniendo la estructura de carpetas):
-   ```bash
-   cd portfolio
-   git init
-   git add .
-   git commit -m "Sitio inicial"
-   git branch -M main
-   git remote add origin https://github.com/jose-mizdraji/portfolio.git
-   git push -u origin main
-   ```
-3. En el repo: **Settings → Pages → Source → Deploy from a branch → `main` / `/ (root)`**.
-4. A los 1-2 minutos el sitio queda online en la URL de arriba.
-
-No hace falta ningún build step, Action ni proceso de compilación — es HTML/CSS/JS servido tal cual.
 
 ## 🔐 Panel de administración — cómo entrar
 
-El panel usa **Sveltia CMS** (sucesor activamente mantenido de Decap/Netlify CMS — Decap ya no recibe casi mantenimiento). Se accede en:
+El panel usa **Sveltia CMS** (sucesor activamente mantenido de Decap/Netlify CMS).
 
-**https://jose-mizdraji.github.io/portfolio/admin/**
+### Por qué no hay un usuario/contraseña propio del sitio
 
-### Por qué no hay un usuario/contraseña "propio" del sitio
+Un sitio 100% estático en GitHub Pages no tiene backend que pueda verificar credenciales de forma segura — cualquier login hecho en JS del lado del cliente se puede leer y saltear desde el navegador. Por eso el acceso está delegado a la autenticación real de GitHub. Es más seguro que un sistema de usuario/contraseña armado a mano.
 
-Un sitio 100% estático en GitHub Pages no tiene backend que pueda verificar credenciales de forma segura — cualquier login hecho en JS del lado del cliente se puede leer y saltear desde el navegador. Por eso el acceso está delegado a la autenticación real de GitHub: quien tenga el token de abajo, puede editar el sitio. Es, de hecho, más seguro que un sistema de usuario/contraseña armado a mano.
+### Generar el token de acceso
 
-### Generar el token de acceso (una sola vez)
-
-1. Entrá a GitHub con la cuenta que va a usarse para administrar el sitio (la cuenta **jose-mizdraji**, ya que Gonzalo y José acordaron compartir una misma identidad).
-2. Andá a **https://github.com/settings/personal-access-tokens/new** (token *fine-grained*, no "classic").
-3. Completá:
+1. Entrar a GitHub con la cuenta **jose-mizdraji**.
+2. Ir a https://github.com/settings/personal-access-tokens/new (token *fine-grained*, no "classic").
+3. Completar:
    - **Repository access** → *Only select repositories* → `jose-mizdraji/portfolio`
    - **Permissions → Repository permissions → Contents** → `Read and write`
-   - (el resto de los permisos quedan en "No access")
-   - **Expiration**: 90 días (o el máximo que prefieran — se puede renovar cuando venza, GitHub avisa antes)
-4. **Generate token** y copiá el valor que empieza con `github_pat_...`. GitHub lo muestra **una sola vez**.
-5. Guardalo en un gestor de contraseñas compartido entre Gonzalo y José (no en un chat, no en un archivo del repo).
-6. Andá a `/admin/`, tocá **"Sign In with Token"** (no "Login with GitHub", ese botón no está configurado a propósito) y pegá el token.
+   - **Expiration**: 90 días (renovable)
+4. **Generate token** y copiar el valor `github_pat_...`. GitHub lo muestra **una sola vez**.
+5. Guardarlo en un gestor de contraseñas compartido (no en un chat, no en un archivo del repo).
+6. En `/admin/`, tocar **"Sign In with Token"** y pegarlo.
 
-El token queda guardado en el `localStorage` del navegador donde iniciaron sesión — si usan dos dispositivos, cada uno necesita pegarlo una vez.
+El token queda en el `localStorage` del navegador. Cada dispositivo necesita pegarlo una vez.
 
-### ⚠️ Ojo con esto (para que no se rompa nada)
+### ⚠️ Cosas a tener en cuenta
 
-- **Cuando venza el token** (a los 90 días si usaron el default), el panel deja de funcionar hasta generar uno nuevo y volver a pegarlo. No es un bug, es la fecha de expiración que se configuró.
-- **Sveltia CMS no soporta edición simultánea entre varios usuarios todavía.** Si Gonzalo y José editan al mismo tiempo, pueden pisarse cambios entre sí. Coordinen quién edita cuándo.
-- Si en algún momento este flujo por token resulta incómodo (por ejemplo, si terminan siendo más de 2 personas editando), se puede migrar a un login con botón "Ingresar con GitHub" (OAuth) desplegando el ["Sveltia CMS Authenticator"](https://github.com/sveltia/sveltia-cms-auth) oficial en Cloudflare Workers (gratis). Es más trabajo de setup pero mejor UX. Avisen si llegan a ese punto y lo armamos.
+- **Cuando venza el token**, el panel deja de funcionar hasta generar uno nuevo. No es un bug.
+- **Sveltia no soporta edición simultánea.** Si dos personas editan al mismo tiempo, pueden pisarse cambios. Coordinar quién edita cuándo.
+- **Si editás archivos a mano desde la terminal**, hacé `git pull origin main --rebase` antes de pushear — el panel commitea directo a GitHub y tu copia local queda atrás.
 
-## ✏️ Qué se puede editar desde el panel
+## ✏️ Qué se edita desde el panel
 
-- **Obras**: agregar, editar y borrar obras de cualquiera de las 4 categorías (Pinturas, Dibujos, Grabados, Esculturas), subir fotos, cambiar el estado (disponible/vendida/reservada), mostrar u ocultar precio, agregar galería de fotos adicionales por obra.
-- **Trayectoria**: biografía, formación, premios, exposiciones individuales y colectivas, colecciones, publicaciones.
-- **Contacto**: email, Instagram, Facebook, WhatsApp, dirección.
+| Sección | Contenido |
+|---|---|
+| **Obras** | Agregar/editar/borrar obras de las 4 categorías, subir fotos, galería por obra, estado (disponible/vendida/reservada), precio opcional |
+| **Inicio y Trayectoria** | Imagen hero, foto de perfil, texto del inicio, imágenes de las 4 tarjetas de categoría, biografía, formación, premios, exposiciones |
+| **Contacto** | Email, Instagram, Facebook, WhatsApp, ubicación |
 
-Cada commit que hace el panel queda firmado y verificado por GitHub, y en el historial del repo (`git log`) queda registro de cada cambio con fecha — sirve como respaldo/auditoría.
+Cada cambio queda como un commit en el historial del repo — sirve como respaldo y auditoría.
 
-## ✅ Antes de publicar el sitio — checklist de placeholders
+## 🖼️ Imágenes — recomendaciones
 
-Este proyecto se armó con **datos reales de José Mizdraji donde se pudieron verificar en fuentes públicas**, pero hay campos que se dejaron vacíos o de ejemplo a propósito en vez de inventarlos. Cada archivo JSON tiene un campo `_pending_review` que lista lo que falta (también visible y editable como una lista al final de cada sección en el panel):
+- **Hero (inicio)**: horizontal, 1600×900px o más
+- **Foto de perfil**: cuadrada, 600×600px mínimo
+- **Tarjetas de categoría**: vertical, ~800×1000px
+- **Obras**: ~1200×900px
+- **Límite del panel**: 2MB por archivo (configurado en `admin/config.yml`)
+- **Nombres de archivo**: evitar espacios y caracteres raros. Usar guiones: `paisaje-interior.jpg` en vez de `paisaje interior ..jpg`. Funcionan igual, pero son frágiles al compartir URLs.
 
-- **`data/obras.json`** — las 5 obras que están cargadas son *ejemplos de plantilla* (título con el prefijo `[EJEMPLO]`), no obras reales. Hay que borrarlas desde el panel y cargar el catálogo real.
-- **`data/bio.json`** — biografía, formación, premios y exposiciones están completados con datos que verificamos en fuentes públicas (Arte de la Argentina, UNNE Medios, República de Corrientes, entre otras), pero:
-  - `colecciones` y `publicaciones` quedaron **vacíos** porque no encontramos museos ni catálogos verificables — José es quien tiene esa información.
-  - Varias exposiciones tienen el año vacío porque la fuente no lo especificaba.
-  - Vale la pena que José revise todo el archivo una vez, por si alguna fuente de terceros tiene algo desactualizado o incompleto.
-- **`data/contacto.json`** — email, Instagram, Facebook y WhatsApp están **vacíos a propósito** (no encontramos cuentas oficiales verificables). El botón de "Consultar por esta obra" y el formulario de contacto no funcionan del todo hasta que se cargue al menos un email.
-- **`assets/images/`** — no hay ninguna foto real todavía, ni siquiera del artista o de una obra. Se suben desde el panel (pestaña de cada obra) o arrastrándolas directamente a `assets/images/` en GitHub.
+Todas las imágenes van a `assets/images/`. El CMS las sube ahí automáticamente.
 
-## 🔒 Seguridad — qué se hizo y qué hay que tener en cuenta
+### Sobre las rutas de las imágenes
 
-- **CSP** (`Content-Security-Policy`) en `index.html` y en `admin/index.html`, vía `<meta>` tag (GitHub Pages no permite mandar headers HTTP custom sin un dominio propio detrás de un proxy). Limitación conocida: la directiva `frame-ancestors` no funciona en un `<meta>` tag — si en algún momento la protección anti-clickjacking importa de verdad, hace falta dominio propio + algo como Cloudflare delante.
-- **SRI** (Subresource Integrity) en el script de Sveltia CMS: la versión queda fijada (`@0.172.4`) con un hash SHA-384 calculado a partir del paquete publicado en npm. Si un CDN sirviera un archivo modificado, el navegador se niega a ejecutarlo. Para actualizar de versión: bajar el nuevo tarball de `https://registry.npmjs.org/@sveltia/cms`, calcular `openssl dgst -sha384 -binary dist/sveltia-cms.js | openssl base64 -A`, y reemplazar versión + hash en `admin/index.html`.
-- **Ningún secreto vive en el repo.** El token de acceso se pega en el navegador y se guarda en `localStorage`, nunca en un archivo versionado. No hay ningún Worker ni proxy OAuth con client secret hardcodeado (ese fue justamente el bug de la versión anterior del proyecto).
-- **Todo el contenido dinámico se escapa** antes de insertarse en el HTML (`escapeHtml()` en `js/app.js`), y los links a obras/categorías usan atributos `href` reales en vez de `onclick` con strings interpolados — evita XSS por esa vía.
-- **Mínimo privilegio**: el token de acceso solo puede leer/escribir contenido de este repo puntual, nada más.
-- Recomendado (no configurado automáticamente porque depende de la cuenta): activar **2FA** en la cuenta de GitHub `jose-mizdraji`.
+Sveltia guarda las rutas con prefijo absoluto (`/portfolio/assets/images/...`). La función `normalizePath()` en `js/app.js` las convierte a relativas al renderizar, porque el sitio vive en un subdirectorio. **Soporta ambos formatos** (`/assets/...` de commits viejos y `/portfolio/assets/...` de los nuevos), así que no hace falta migrar nada a mano.
 
-## 🔍 SEO — qué mejora y qué limitación queda
+**Importante:** no agregar `media_folder`/`public_folder` a nivel de colección o archivo en `admin/config.yml`. Sveltia los interpreta como relativos a la carpeta del entry, así que poner `media_folder: assets/images/obras` dentro de la colección de obras (cuyo archivo es `data/obras.json`) hace que las imágenes terminen en `data/assets/images/obras/`. Usar solo el `media_folder` global de arriba del archivo.
 
-Se agregó `<title>` y meta description dinámicos por sección, y datos estructurados (JSON-LD, schema.org `Person` / `VisualArtwork`) inyectados por JS. Pero al ser una SPA con ruteo por `#hash`, buscadores como Google no indexan `/#obras` o `/#obra/id` como páginas separadas de la home — por eso `sitemap.xml` solo lista la raíz. Si en algún momento importa que cada obra sea encontrable individualmente en Google, la solución real es pre-renderizar o migrar a rutas de verdad, lo cual implica agregar un build step (dejamos de ser "cero infraestructura"). Avisen si eso pasa a ser prioridad.
+## 🔒 Seguridad
+
+- **CSP** en `index.html` y `admin/index.html` vía `<meta>` tag. Limitación conocida: `frame-ancestors` no funciona en meta tags — protección anti-clickjacking real requiere dominio propio + proxy (Cloudflare).
+- **SRI** en el script de Sveltia CMS, versión fijada (`@0.172.4`) con hash SHA-384. Para actualizar: bajar el tarball de `https://registry.npmjs.org/@sveltia/cms`, calcular `openssl dgst -sha384 -binary dist/sveltia-cms.js | openssl base64 -A`, reemplazar versión + hash en `admin/index.html`.
+- **Ningún secreto en el repo.** El token vive solo en el navegador.
+- **`escapeHtml()`** en todo el contenido dinámico (45 usos), **`sanitizeUrl()`** en URLs arbitrarias (bloquea `javascript:`), validación de formato de email antes de `location.href`.
+- **`rel="noopener noreferrer"`** en todos los links externos.
+- **Mínimo privilegio**: el token solo puede escribir en este repo.
+- Recomendado: activar **2FA** en la cuenta `jose-mizdraji`.
+
+Limitaciones estructurales de GitHub Pages gratuito: no se pueden enviar headers HTTP custom (`X-Frame-Options`, `Permissions-Policy`, etc.). Se resolvería poniendo Cloudflare gratis delante, si en algún momento se compra un dominio propio.
+
+## 🔍 SEO
+
+Hay `<title>`, meta description y JSON-LD (schema.org `Person` / `VisualArtwork`) dinámicos por sección. Pero al ser una SPA con ruteo por `#hash`, Google no indexa `/#obras` ni `/#obra/id` como páginas separadas — por eso `sitemap.xml` solo lista la raíz. Si en algún momento importa que cada obra sea encontrable individualmente, hay que pre-renderizar o migrar a rutas reales (implica agregar un build step).
 
 ## 🩹 Troubleshooting
 
-- **"Error al cargar los datos"** → algún JSON en `data/` quedó mal formado. Abrí la consola del navegador (F12) para ver el error exacto, o pegá el archivo en un validador de JSON.
-- **El panel no carga / da error de login** → confirmá que el token no venció y que tiene permiso `Contents: Read and write` sobre `jose-mizdraji/portfolio`.
-- **Las fotos no se ven** → las rutas son relativas (`assets/images/obras/...`), no deberían empezar con `/`.
-- **Los cambios no se reflejan** → GitHub Pages tarda 1-2 minutos en redeployar después de cada commit del panel. `Ctrl+Shift+R` para forzar recarga sin caché.
+- **"Error al cargar los datos"** → algún JSON en `data/` quedó mal formado. Consola del navegador (F12) para ver el error exacto.
+- **El panel no carga / error de login** → el token venció, o no tiene `Contents: Read and write` sobre `jose-mizdraji/portfolio`.
+- **Las fotos no se ven** → verificar que el archivo existe en `assets/images/`. Las rutas con `/portfolio/` al inicio son correctas: `normalizePath()` las maneja.
+- **"N fields have errors" al guardar** → algún campo requerido quedó vacío. Los campos `año` y `lugar` de las listas son opcionales; `título` no.
+- **Los cambios no se reflejan** → GitHub Pages tarda 1-2 minutos en redeployar. `Ctrl+Shift+R` para forzar recarga sin caché.
+- **`git push` rechazado** → el panel commiteó algo que no tenés local. `git pull origin main --rebase` y volvé a pushear.
 
 ## 📄 Licencia
+
 Proyecto desarrollado para José Mizdraji. Uso exclusivo del artista.
