@@ -7,10 +7,10 @@
   "fotoPerfil": null,
   "textoInicio": "Su práctica abarca la pintura, el dibujo, el grabado y la escultura, cruzando memoria, entorno y materialidad.",
   "imagenesCategorias": {
-    "Pinturas": null,
-    "Dibujos": null,
-    "Grabados": null,
-    "Esculturas": null
+    "Pinturas": "/portfolio/assets/images/21.jpg",
+    "Dibujos": "/portfolio/assets/images/josc3a9-mizdraji_DIBUJO-EJEMPLO.jpg",
+    "Grabados": "/portfolio/assets/images/9632_4-jpeg_GRABADO_EJEMPLO.jpeg",
+    "Esculturas": "/portfolio/assets/images/20251108_123120.png"
   },
   "biografia": "José Mizdraji nació en la ciudad de Corrientes el 18 de mayo de 1957. Es Maestro en Artes Visuales y Profesor de Pintura y Grabado, con más de 40 años de trabajo ininterrumpido: dibuja y pinta desde niño, y se define a sí mismo como un artista ecléctico que no se ata a un único lenguaje — pasa de la abstracción a la figuración según lo que la obra le pida en cada momento.\n\nSe formó junto a referentes del arte argentino como Luis Felipe Noé, Sergio Bazán, Oscar Smoje, Luis Wells y Mónica Girón, y realizó clínicas de arte contemporáneo con Diana Aisemberg y Daniel García. Su obra recorre indistintamente la pintura, el dibujo, el grabado y la escultura, muchas veces combinando las cuatro disciplinas dentro de una misma serie.\n\nEntre 2020 y 2024 desarrolló la serie \"La niña de la caja\", inspirada en su sobrina jugando con una caja de cartón, que combina pintura, dibujo, grabado y escultura para construir un universo entre el encierro y la fantasía. Expuso de forma individual y colectiva en numerosos museos, centros culturales y galerías de Corrientes, Chaco, Santa Fe, Entre Ríos, Buenos Aires, Mendoza y también en España, y recibió distinciones en salones nacionales y regionales de pintura y grabado.",
   "formacion": [
