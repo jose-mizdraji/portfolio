@@ -107,6 +107,23 @@
         "/portfolio/assets/images/obras/1000251235.jpg"
       ],
       "fechaCarga": "2026-07-26T13:28"
+    },
+    {
+      "id": "pintura-03",
+      "titulo": "Sueño de una noche",
+      "categoria": "Pinturas",
+      "año": 2026,
+      "tecnica": "Acrílico sobre tela",
+      "materiales": "Acrílico",
+      "medidas": "110cm x 110cm",
+      "serie": "",
+      "descripcion": "Seguimos probando",
+      "estado": "disponible",
+      "precio": null,
+      "mostrarPrecio": false,
+      "imagenPrincipal": "/portfolio/assets/images/Captura de pantalla de 2026-07-26 14-05-01.png",
+      "galeria": [],
+      "fechaCarga": "2026-07-26T14:06"
     }
   ],
   "_pending_review": [
