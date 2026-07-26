@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  El sitio es una SPA con ruteo por #hash (ej: /#obras, /#obra/id). Google
+  no indexa fragmentos #hash como URLs separadas de la raíz, así que
+  listar "https://.../#obras" acá no ayudaría en nada — solo la home es
+  indexable como página propia con esta arquitectura. Ver README.md,
+  sección SEO, si en algún momento esto necesita resolverse de verdad
+  (implicaría pre-renderizar o migrar a rutas reales).
+-->
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  <url>
+    <loc>https://jose-mizdraji.github.io/portfolio/</loc>
+    <priority>1.0</priority>
+  </url>
+</urlset>

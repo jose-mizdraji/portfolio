@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="robots" content="noindex, nofollow">
+  <title>Panel de administración — José Mizdraji</title>
+
+  <!--
+    CSP específico del panel (más permisivo que el del sitio público porque
+    Sveltia CMS necesita hablar con la API de GitHub y con unpkg.com para
+    traer su propio bundle). Basado en el CSP builder oficial de Sveltia:
+    https://sveltiacms.app/en/docs/security#setting-up-content-security-policy
+  -->
+  <meta http-equiv="Content-Security-Policy" content="
+    default-src 'self';
+    style-src 'self' 'unsafe-inline' https://fonts.googleapis.com;
+    font-src 'self' https://fonts.gstatic.com;
+    img-src 'self' blob: data: https://*.githubusercontent.com;
+    media-src blob:;
+    frame-src blob:;
+    script-src 'self' https://unpkg.com;
+    connect-src 'self' blob: data: https://unpkg.com https://api.github.com https://github.com https://*.githubusercontent.com;
+    manifest-src blob:;
+    object-src 'none';
+    base-uri 'self';
+  ">
+</head>
+<body>
+  <!--
+    Versión de Sveltia CMS fijada a propósito (en vez de la última) para que
+    el hash de integridad (SRI) de abajo tenga sentido: si un CDN o un
+    ataque de cadena de suministro llegara a modificar este archivo en
+    unpkg.com, el navegador se niega a ejecutarlo porque el hash no
+    coincide. Para actualizar de versión: cambiar el número acá abajo y
+    recalcular el hash (ver instrucciones en README.md).
+  -->
+  <script
+    src="https://unpkg.com/@sveltia/cms@0.172.4/dist/sveltia-cms.js"
+    integrity="sha384-Sj4Mfbg9OjjwG2ZE/YeUYu7xbZRTXGFg/wa/nszj3KzItKuRLEmGqSpV5C9YI2Ge"
+    crossorigin="anonymous"
+  ></script>
+</body>
+</html>

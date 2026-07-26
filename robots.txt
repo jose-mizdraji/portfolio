@@ -1,0 +1,5 @@
+User-agent: *
+Allow: /
+Disallow: /admin/
+
+Sitemap: https://jose-mizdraji.github.io/portfolio/sitemap.xml

@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>José Mizdraji — Artista Visual</title>
+  <meta name="description" content="Portafolio oficial de José Mizdraji, artista visual correntino. Pintura, dibujo, grabado y escultura.">
+  <meta property="og:title" content="José Mizdraji — Artista Visual">
+  <meta property="og:description" content="Portafolio oficial de José Mizdraji, artista visual correntino.">
+  <meta property="og:type" content="website">
+  <meta property="og:image" content="https://jose-mizdraji.github.io/portfolio/assets/images/og.jpg">
+  <meta property="og:url" content="https://jose-mizdraji.github.io/portfolio/">
+  <meta property="og:locale" content="es_AR">
+  <link rel="canonical" href="https://jose-mizdraji.github.io/portfolio/">
+
+  <!--
+    Content-Security-Policy vía meta tag (GitHub Pages no permite headers
+    HTTP custom, así que esta es la única forma disponible sin dominio propio
+    detrás de un proxy). Limitación conocida: la directiva frame-ancestors NO
+    funciona en un <meta> tag (los navegadores la ignoran ahí a propósito) —
+    si en algún momento la protección anti-clickjacking importa de verdad,
+    hace falta un dominio propio servido por algo que sí mande headers reales
+    (p. ej. Cloudflare delante de GitHub Pages).
+  -->
+  <meta http-equiv="Content-Security-Policy" content="
+    default-src 'self';
+    script-src 'self';
+    style-src 'self' 'unsafe-inline' https://fonts.googleapis.com;
+    font-src 'self' https://fonts.gstatic.com;
+    img-src 'self' data:;
+    connect-src 'self';
+    object-src 'none';
+    base-uri 'self';
+    form-action 'self';
+  ">
+
+  <link rel="stylesheet" href="css/main.css">
+  <script src="js/app.js" defer></script>
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-inner">
+      <a href="#home" class="logo">José <span>Mizdraji</span></a>
+      <nav class="main-nav" id="main-nav">
+        <a href="#home">Inicio</a>
+        <a href="#obras">Obras</a>
+        <a href="#trayectoria">Trayectoria</a>
+        <a href="#contacto">Contacto</a>
+      </nav>
+      <button class="mobile-toggle" aria-label="Abrir menú" aria-expanded="false" aria-controls="main-nav">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </header>
+
+  <main id="app-main">
+    <div class="loading">
+      <p>Cargando portafolio...</p>
+    </div>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <div class="footer-social">
+        <a href="#contacto">Contacto</a>
+      </div>
+      <p>&copy; 2026 José Mizdraji. Todos los derechos reservados.</p>
+      <a href="https://jaga-mu.vercel.app/" target="_blank" rel="noopener noreferrer">Diseñado por Jagā Digital Hub.</a>
+    </div>
+  </footer>
+</body>
+</html>
