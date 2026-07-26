@@ -64,7 +64,7 @@
       "estado": "reservada",
       "precio": 0,
       "mostrarPrecio": false,
-      "imagenPrincipal": "assets/images/placeholder-grabado.jpg",
+      "imagenPrincipal": "portfolio/assets/images/obras/9632_4-jpeg_GRABADO_EJEMPLO.jpeg",
       "galeria": [],
       "fechaCarga": "2026-01-01"
     },
@@ -81,7 +81,7 @@
       "estado": "disponible",
       "precio": 0,
       "mostrarPrecio": false,
-      "imagenPrincipal": "assets/images/placeholder-escultura.jpg",
+      "imagenPrincipal": "portfolio/assets/images/obras/20260223_092734.png",
       "galeria": [],
       "fechaCarga": "2026-01-01"
     }
