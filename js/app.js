@@ -431,8 +431,21 @@ const App = {
     const mailtoBody = encodeURIComponent(`Hola,\n\nMe interesa obtener información sobre la obra "${work.titulo}" (${work.año}).\n\nQuedo atento/a a su respuesta.\n\nSaludos cordiales.`);
     const mailtoLink = contact.email ? `mailto:${contact.email}?subject=${mailtoSubject}&body=${mailtoBody}` : null;
 
-    const galleryThumbs = (work.galeria && work.galeria.length > 0)
-      ? work.galeria.map((img, i) => `<img src="${this.escapeHtml(this.normalizePath(img))}" alt="${this.escapeHtml(work.titulo)} - vista ${i + 2}" class="thumb-btn ${i === 0 ? 'active' : ''}" data-src="${this.escapeHtml(this.normalizePath(img))}" tabindex="0" role="button" loading="lazy">`).join('')
+    // Bug 2 fix: la imagen principal siempre va primero en los thumbs.
+    // Antes solo se mostraban los items de work.galeria, así que después de
+    // hacer click en una galería no había forma de volver a la imagen principal.
+    const allThumbs = [
+      work.imagenPrincipal,
+      ...((work.galeria && work.galeria.length > 0) ? work.galeria : [])
+    ].filter(Boolean);
+
+    const galleryThumbs = allThumbs.length > 1
+      ? allThumbs.map((img, i) => `<img
+          src="${this.escapeHtml(this.normalizePath(img))}"
+          alt="${this.escapeHtml(work.titulo)} - vista ${i + 1}"
+          class="thumb-btn ${i === 0 ? 'active' : ''}"
+          data-src="${this.escapeHtml(this.normalizePath(img))}"
+          tabindex="0" role="button" loading="lazy">`).join('')
       : '';
 
     return `
@@ -520,13 +533,13 @@ const App = {
             <aside class="bio-sidebar">
               ${bio.fotoPerfil ? `<img src="${this.escapeHtml(this.normalizePath(bio.fotoPerfil))}" alt="Foto de ${this.escapeHtml(bio.nombre)}" style="width:100%;aspect-ratio:1;object-fit:cover;margin-bottom:1.5rem;border:1px solid var(--color-border-light);" loading="lazy">` : ''}
               <nav aria-label="Secciones de trayectoria">
-                <a href="#trayectoria" class="active" onclick="App.scrollToSection('bio-biografia', event)">Biografía</a>
-                <a href="#trayectoria" onclick="App.scrollToSection('bio-formacion', event)">Formación</a>
-                <a href="#trayectoria" onclick="App.scrollToSection('bio-premios', event)">Premios</a>
-                <a href="#trayectoria" onclick="App.scrollToSection('bio-individuales', event)">Exposiciones Individuales</a>
-                <a href="#trayectoria" onclick="App.scrollToSection('bio-colectivas', event)">Exposiciones Colectivas</a>
-                ${(bio.colecciones && bio.colecciones.length) ? `<a href="#trayectoria" onclick="App.scrollToSection('bio-colecciones', event)">Colecciones</a>` : ''}
-                ${(bio.publicaciones && bio.publicaciones.length) ? `<a href="#trayectoria" onclick="App.scrollToSection('bio-publicaciones', event)">Publicaciones</a>` : ''}
+                <a href="#trayectoria" class="active" data-section="bio-biografia">Biografía</a>
+                <a href="#trayectoria" data-section="bio-formacion">Formación</a>
+                <a href="#trayectoria" data-section="bio-premios">Premios</a>
+                <a href="#trayectoria" data-section="bio-individuales">Exposiciones Individuales</a>
+                <a href="#trayectoria" data-section="bio-colectivas">Exposiciones Colectivas</a>
+                ${(bio.colecciones && bio.colecciones.length) ? `<a href="#trayectoria" data-section="bio-colecciones">Colecciones</a>` : ''}
+                ${(bio.publicaciones && bio.publicaciones.length) ? `<a href="#trayectoria" data-section="bio-publicaciones">Publicaciones</a>` : ''}
               </nav>
             </aside>
             <div class="bio-content">
@@ -574,7 +587,23 @@ const App = {
     `;
   },
 
-  bindTrayectoriaEvents() {},
+  bindTrayectoriaEvents() {
+    // Los links del sidebar usan data-section en vez de onclick inline
+    // porque App es const (no window.App) y los handlers inline no pueden encontrarlo.
+    document.querySelectorAll('.bio-sidebar a[data-section]').forEach(link => {
+      link.addEventListener('click', (e) => {
+        e.preventDefault();
+        const sectionId = link.dataset.section;
+        const el = document.getElementById(sectionId);
+        if (el) {
+          const top = el.getBoundingClientRect().top + window.scrollY - 100;
+          window.scrollTo({ top, behavior: 'smooth' });
+        }
+        document.querySelectorAll('.bio-sidebar a').forEach(a => a.classList.remove('active'));
+        link.classList.add('active');
+      });
+    });
+  },
 
   scrollToSection(id, event) {
     if (event) event.preventDefault();
