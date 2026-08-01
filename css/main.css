@@ -115,10 +115,16 @@ a:focus-visible, button:focus-visible, input:focus-visible, select:focus-visible
 
 /* Works */
 .works-section { padding: 5rem 0; }
-.works-toolbar { display: flex; justify-content: space-between; align-items: center; margin-bottom: 3rem; flex-wrap: wrap; gap: 1.5rem; }
-.filter-tabs { display: flex; gap: 0.5rem; }
+.works-toolbar { display: flex; flex-direction: column; align-items: flex-start; margin-bottom: 3rem; gap: 1rem; }
+.works-toolbar-bottom { display: flex; justify-content: space-between; align-items: center; width: 100%; flex-wrap: wrap; gap: 1rem; }
+.filter-tabs { display: flex; gap: 0.5rem; flex-wrap: wrap; }
+.filter-tabs-series { display: flex; align-items: center; gap: 0.5rem; flex-wrap: wrap; padding-top: 0.25rem; border-top: 1px dashed var(--color-border); }
+.filter-series-label { font-size: 0.72rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.08em; color: var(--color-text-muted); margin-right: 0.25rem; white-space: nowrap; }
 .filter-btn { padding: 0.6rem 1.2rem; font-family: var(--font-sans); font-size: 0.8rem; font-weight: 500; letter-spacing: 0.03em; background: transparent; border: 1px solid var(--color-border); color: var(--color-text-secondary); cursor: pointer; transition: var(--transition); }
 .filter-btn:hover, .filter-btn.active { border-color: var(--color-text); color: var(--color-text); background: var(--color-bg-alt); }
+.filter-btn-serie { border-style: dashed; font-style: italic; }
+.filter-btn-serie.active { border-style: solid; border-color: var(--color-accent); color: var(--color-accent); background: transparent; }
+.work-card-serie { font-size: 0.72rem; color: var(--color-accent); font-style: italic; margin-top: 0.4rem; }
 .search-box { position: relative; }
 .search-box input { padding: 0.7rem 1rem 0.7rem 2.5rem; border: 1px solid var(--color-border); background: var(--color-bg-alt); font-family: var(--font-sans); font-size: 0.85rem; width: 260px; outline: none; transition: var(--transition); }
 .search-box input:focus { border-color: var(--color-accent); }
@@ -136,6 +142,12 @@ a:focus-visible, button:focus-visible, input:focus-visible, select:focus-visible
 .work-card-info { padding: 1.5rem; }
 .work-card-info h3 { font-family: var(--font-serif); font-size: 1.15rem; margin-bottom: 0.4rem; font-weight: 500; }
 .work-card-info .meta { font-size: 0.8rem; color: var(--color-text-muted); display: flex; gap: 1rem; }
+.btn-serie-link { background: none; border: none; padding: 0; font-family: var(--font-sans); font-size: inherit; color: var(--color-accent); cursor: pointer; font-style: italic; text-decoration: underline; text-decoration-style: dotted; }
+.btn-serie-link:hover { text-decoration-style: solid; }
+.serie-related { margin-top: 4rem; padding-top: 3rem; border-top: 1px solid var(--color-border-light); }
+.serie-related h3 { font-size: 1.1rem; font-weight: 400; margin-bottom: 2rem; color: var(--color-text-secondary); }
+.serie-related h3 em { color: var(--color-accent); font-style: italic; }
+.serie-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 1.5rem; }
 
 /* Artwork Detail */
 .artwork-detail { padding-top: 72px; }

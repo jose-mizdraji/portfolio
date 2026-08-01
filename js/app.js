@@ -10,6 +10,7 @@ const CATEGORIES = ['Pinturas', 'Dibujos', 'Grabados', 'Esculturas'];
 const App = {
   currentRoute: '',
   currentFilter: 'todas',
+  currentSerie: '',
   currentSort: 'recientes',
   searchQuery: '',
   data: { works: [], bio: {}, contact: {} },
@@ -317,23 +318,33 @@ const App = {
             <h1 style="font-size: clamp(2rem, 4vw, 3rem);">Obras</h1>
           </div>
           <div class="works-toolbar">
-            <div class="filter-tabs" role="tablist" aria-label="Filtrar por categoría">
-              <button class="filter-btn ${this.currentFilter === 'todas' ? 'active' : ''}" data-filter="todas">Todas</button>
+            <div class="filter-tabs" role="tablist" aria-label="Filtrar por disciplina">
+              <button class="filter-btn ${this.currentFilter === 'todas' && !this.currentSerie ? 'active' : ''}" data-filter="todas">Todas</button>
               ${CATEGORIES.map(cat => `
-                <button class="filter-btn ${this.currentFilter === cat ? 'active' : ''}" data-filter="${this.escapeHtml(cat)}">${this.escapeHtml(cat)}</button>
+                <button class="filter-btn ${this.currentFilter === cat && !this.currentSerie ? 'active' : ''}" data-filter="${this.escapeHtml(cat)}">${this.escapeHtml(cat)}</button>
               `).join('')}
             </div>
-            <div style="display:flex; gap:1rem; align-items:center;">
+            ${(() => {
+              const series = [...new Set(this.data.works.map(w => (w.serie||'').trim()).filter(Boolean))].sort((a,b) => a.localeCompare(b));
+              return series.length ? `
+              <div class="filter-tabs filter-tabs-series" role="group" aria-label="Filtrar por serie">
+                <span class="filter-series-label">Serie</span>
+                ${series.map(s => `<button class="filter-btn filter-btn-serie ${this.currentSerie === s ? 'active' : ''}" data-serie="${this.escapeHtml(s)}">${this.escapeHtml(s)}</button>`).join('')}
+              </div>` : '';
+            })()}
+            <div class="works-toolbar-bottom">
               <div class="search-box">
                 <label for="obra-search" class="visually-hidden">Buscar obra</label>
                 <input type="text" id="obra-search" placeholder="Buscar obra..." value="${this.escapeHtml(this.searchQuery)}">
               </div>
-              <label for="obra-sort" class="visually-hidden">Ordenar obras</label>
-              <select class="sort-select" id="obra-sort">
-                <option value="recientes" ${this.currentSort === 'recientes' ? 'selected' : ''}>Más recientes</option>
-                <option value="antiguas" ${this.currentSort === 'antiguas' ? 'selected' : ''}>Más antiguas</option>
-                <option value="titulo" ${this.currentSort === 'titulo' ? 'selected' : ''}>Título</option>
-              </select>
+              <div style="display:flex;gap:1rem;align-items:center;">
+                <label for="obra-sort" class="visually-hidden">Ordenar obras</label>
+                <select class="sort-select" id="obra-sort">
+                  <option value="recientes" ${this.currentSort === 'recientes' ? 'selected' : ''}>Más recientes</option>
+                  <option value="antiguas" ${this.currentSort === 'antiguas' ? 'selected' : ''}>Más antiguas</option>
+                  <option value="titulo" ${this.currentSort === 'titulo' ? 'selected' : ''}>Título</option>
+                </select>
+              </div>
             </div>
           </div>
           <div class="works-grid" id="obras-grid">
@@ -347,7 +358,10 @@ const App = {
   renderObrasGrid() {
     let works = [...this.data.works];
 
-    if (this.currentFilter !== 'todas') {
+    if (this.currentSerie) {
+      // Filtro por serie — muestra todas las disciplinas de esa serie
+      works = works.filter(w => (w.serie || '').trim() === this.currentSerie);
+    } else if (this.currentFilter !== 'todas') {
       works = works.filter(w => w.categoria === this.currentFilter);
     }
 
@@ -374,11 +388,35 @@ const App = {
   },
 
   bindObrasEvents() {
-    document.querySelectorAll('.filter-btn').forEach(btn => {
+    // Botones de disciplina: limpian la serie seleccionada
+    document.querySelectorAll('.filter-btn[data-filter]').forEach(btn => {
       btn.addEventListener('click', (e) => {
-        document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
-        e.target.classList.add('active');
+        this.currentSerie = '';
         this.currentFilter = e.target.dataset.filter;
+        document.querySelectorAll('.filter-btn[data-filter]').forEach(b => b.classList.remove('active'));
+        e.target.classList.add('active');
+        document.querySelectorAll('.filter-btn-serie').forEach(b => b.classList.remove('active'));
+        document.getElementById('obras-grid').innerHTML = this.renderObrasGrid();
+      });
+    });
+
+    // Botones de serie: limpian el filtro de disciplina
+    document.querySelectorAll('.filter-btn-serie').forEach(btn => {
+      btn.addEventListener('click', (e) => {
+        const serie = e.target.dataset.serie;
+        if (this.currentSerie === serie) {
+          // segundo clic en la misma serie → deseleccionar (volver a Todas)
+          this.currentSerie = '';
+          this.currentFilter = 'todas';
+          e.target.classList.remove('active');
+          document.querySelector('.filter-btn[data-filter="todas"]').classList.add('active');
+        } else {
+          this.currentSerie = serie;
+          this.currentFilter = 'todas';
+          document.querySelectorAll('.filter-btn[data-filter]').forEach(b => b.classList.remove('active'));
+          document.querySelectorAll('.filter-btn-serie').forEach(b => b.classList.remove('active'));
+          e.target.classList.add('active');
+        }
         document.getElementById('obras-grid').innerHTML = this.renderObrasGrid();
       });
     });
@@ -464,7 +502,9 @@ const App = {
             <div class="artwork-info">
               <span class="label">${this.escapeHtml(work.categoria)}</span>
               <h1>${this.escapeHtml(work.titulo)}</h1>
-              <p class="year">${this.escapeHtml(String(work.año ?? ''))}${work.serie ? ` · ${this.escapeHtml(work.serie)}` : ''}</p>
+              <p class="year">${this.escapeHtml(String(work.año ?? ''))}${work.serie
+                ? ` · <button class="btn-serie-link" data-serie="${this.escapeHtml(work.serie)}">↳ ${this.escapeHtml(work.serie)}</button>`
+                : ''}</p>
 
               <div class="artwork-meta">
                 <div class="meta-row"><span class="meta-label">Técnica</span><span class="meta-value">${this.escapeHtml(work.tecnica)}</span></div>
@@ -489,12 +529,33 @@ const App = {
               }
             </div>
           </div>
+          ${(() => {
+            if (!work.serie) return '';
+            const serieWorks = this.data.works.filter(w => w.serie === work.serie && w.id !== work.id);
+            if (!serieWorks.length) return '';
+            return `
+              <div class="serie-related">
+                <h3>Más obras de esta serie: <em>${this.escapeHtml(work.serie)}</em></h3>
+                <div class="serie-grid">
+                  ${serieWorks.map(w => this.renderWorkCard(w)).join('')}
+                </div>
+              </div>`;
+          })()}
         </div>
       </div>
     `;
   },
 
   bindObraDetailEvents() {
+    // Link de serie en detalle de obra → navega a Obras filtrado por esa serie
+    document.querySelectorAll('.btn-serie-link').forEach(btn => {
+      btn.addEventListener('click', () => {
+        this.currentSerie = btn.dataset.serie;
+        this.currentFilter = 'todas';
+        window.location.hash = '#obras';
+      });
+    });
+
     document.querySelectorAll('.thumb-btn').forEach(thumb => {
       const activate = () => this.setMainImage(thumb.dataset.src, thumb);
       thumb.addEventListener('click', activate);
