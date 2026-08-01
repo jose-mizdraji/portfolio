@@ -15,19 +15,24 @@
   "biografia": "José Mizdraji nació en la ciudad de Corrientes el 18 de mayo de 1957. Es Maestro en Artes Visuales y Profesor de Pintura y Grabado, con más de 40 años de trabajo ininterrumpido: dibuja y pinta desde niño, y se define a sí mismo como un artista ecléctico que no se ata a un único lenguaje — pasa de la abstracción a la figuración según lo que la obra le pida en cada momento.\n\nSe formó junto a referentes del arte argentino como Luis Felipe Noé, Sergio Bazán, Oscar Smoje, Luis Wells y Mónica Girón, y realizó clínicas de arte contemporáneo con Diana Aisemberg y Daniel García. Su obra recorre indistintamente la pintura, el dibujo, el grabado y la escultura, muchas veces combinando las cuatro disciplinas dentro de una misma serie.\n\nEntre 2020 y 2024 desarrolló la serie \"La niña de la caja\", inspirada en su sobrina jugando con una caja de cartón, que combina pintura, dibujo, grabado y escultura para construir un universo entre el encierro y la fantasía. Expuso de forma individual y colectiva en numerosos museos, centros culturales y galerías de Corrientes, Chaco, Santa Fe, Entre Ríos, Buenos Aires, Mendoza y también en España, y recibió distinciones en salones nacionales y regionales de pintura y grabado.",
   "formacion": [
     {
-      "año": "2005",
-      "titulo": "Clínica de Arte Contemporáneo",
-      "institucion": "Con Diana Aisemberg y Daniel García"
+      "año": "",
+      "titulo": "Profesor de Pintura y Grabado",
+      "institucion": ""
     },
     {
-      "año": "1998–1999",
+      "año": "",
+      "titulo": "Beca — Clínica de arte con Felipe Noé, Sergio Bazán, Oscar Smoje, Luis Wells y Mónica Girón",
+      "institucion": "Fundación Antorcha y Fundación para la Amistad Americana, Posadas"
+    },
+    {
+      "año": "",
       "titulo": "Subsidio a la Creación Artística",
-      "institucion": "Fundación Antorchas"
+      "institucion": "Fundación Antorcha"
     },
     {
-      "año": "1997–1999",
-      "titulo": "Beca — clínicas con Luis Felipe Noé, Sergio Bazán, Oscar Smoje, Luis Wells y Mónica Girón",
-      "institucion": "Fundación para la Amistad Americana, Posadas"
+      "año": "",
+      "titulo": "Clínicas de Arte Contemporáneo",
+      "institucion": "Con Diana Aisemberg y Daniel García"
     }
   ],
   "premios": [
@@ -269,6 +274,46 @@
       "año": "",
       "titulo": "Participación habitual",
       "lugar": "Ferias de arte de Corrientes, Buenos Aires y Salta"
+    },
+    {
+      "año": "",
+      "titulo": "Participación en Salones Nacionales de Dibujo, Pintura, Grabado, Escultura y Cerámica",
+      "lugar": "Museo Nacional de Bellas Artes, Buenos Aires"
+    },
+    {
+      "año": "",
+      "titulo": "Participación en Salones Nacionales",
+      "lugar": "Museo de Bellas Artes Rosa Galisteo de Rodríguez, Santa Fe"
+    },
+    {
+      "año": "",
+      "titulo": "Participación en Salones Nacionales",
+      "lugar": "Museo de Arte Moderno, Buenos Aires"
+    },
+    {
+      "año": "",
+      "titulo": "Participación en Salones Nacionales",
+      "lugar": "Museo Castagnino, Rosario"
+    },
+    {
+      "año": "",
+      "titulo": "Participación en Salones Nacionales",
+      "lugar": "Museo de Bellas Artes, Mendoza"
+    },
+    {
+      "año": "",
+      "titulo": "Participación en Salones Nacionales",
+      "lugar": "San Luis"
+    },
+    {
+      "año": "",
+      "titulo": "Participación en Salones Nacionales",
+      "lugar": "Mar del Plata"
+    },
+    {
+      "año": "",
+      "titulo": "Participación en Salones Nacionales",
+      "lugar": "San Juan"
     }
   ],
   "colecciones": [],
