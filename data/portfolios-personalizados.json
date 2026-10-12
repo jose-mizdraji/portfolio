@@ -1,0 +1,30 @@
+{
+  "portfolios": [
+    {
+      "enlace": "EJEMPLO-2026",
+      "titulo": "[EJEMPLO] Portfolio de muestra",
+      "destinatario": "Convocatoria de ejemplo",
+      "descripcion": "Portfolio de ejemplo para probar el generador. Se puede borrar o deshabilitar desde el panel de administración, en Administrar portfolios.",
+      "habilitado": true,
+      "tipo": "mixto",
+      "secciones": [
+        {
+          "serie": "934c9d37-d894-41a3-af26-ef5cccd1d2a1",
+          "obras": []
+        },
+        {
+          "serie": "24ad26b3-e722-4c16-912d-b4c63f585d2e",
+          "obras": [
+            "laninanr4",
+            "ejemplo-dibujo-01"
+          ]
+        },
+        {
+          "obras": [
+            "pintura-03"
+          ]
+        }
+      ]
+    }
+  ]
+}

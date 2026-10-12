@@ -1,0 +1,22 @@
+{
+  "series": [
+    {
+      "id": "934c9d37-d894-41a3-af26-ef5cccd1d2a1",
+      "nombre": "Pandemia",
+      "descripcion": "[EJEMPLO] Descripción de la serie. Reemplazala desde el panel de administración, en la sección Series.",
+      "visible": true
+    },
+    {
+      "id": "60b8fc92-df28-4317-8269-d314de7ca51c",
+      "nombre": "Muros de mi Ciudad",
+      "descripcion": "[EJEMPLO] Descripción de la serie. Reemplazala desde el panel de administración, en la sección Series.",
+      "visible": true
+    },
+    {
+      "id": "24ad26b3-e722-4c16-912d-b4c63f585d2e",
+      "nombre": "Recuerdos",
+      "descripcion": "[EJEMPLO] Descripción de la serie. Reemplazala desde el panel de administración, en la sección Series.",
+      "visible": true
+    }
+  ]
+}

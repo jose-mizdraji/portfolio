@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="es">
+<html lang="es" data-theme="light">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -11,6 +11,7 @@
   <meta property="og:image" content="https://jose-mizdraji.github.io/portfolio/assets/images/og.jpg">
   <meta property="og:url" content="https://jose-mizdraji.github.io/portfolio/">
   <meta property="og:locale" content="es_AR">
+  <meta name="color-scheme" content="light dark">
   <link rel="canonical" href="https://jose-mizdraji.github.io/portfolio/">
 
   <!--
@@ -21,6 +22,9 @@
     si en algún momento la protección anti-clickjacking importa de verdad,
     hace falta un dominio propio servido por algo que sí mande headers reales
     (p. ej. Cloudflare delante de GitHub Pages).
+
+    Todo el JavaScript es propio ('self'): incluida la librería de PDF, que
+    está copiada en js/vendor/ en vez de cargarse desde un CDN.
   -->
   <meta http-equiv="Content-Security-Policy" content="
     default-src 'self';
@@ -36,21 +40,30 @@
 
   <meta name="referrer" content="strict-origin-when-cross-origin">
   <link rel="stylesheet" href="css/main.css">
-  <script src="js/app.js" defer></script>
+  <script src="js/theme.js"></script>
+  <script type="module" src="js/app.js"></script>
 </head>
 <body>
   <header class="site-header">
     <div class="container header-inner">
       <a href="#home" class="logo">José <span>Mizdraji</span></a>
-      <nav class="main-nav" id="main-nav">
-        <a href="#home">Inicio</a>
-        <a href="#obras">Obras</a>
-        <a href="#trayectoria">Trayectoria</a>
-        <a href="#contacto">Contacto</a>
-      </nav>
-      <button class="mobile-toggle" aria-label="Abrir menú" aria-expanded="false" aria-controls="main-nav">
-        <span></span><span></span><span></span>
-      </button>
+      <div class="header-right">
+        <nav class="main-nav" id="main-nav" aria-label="Principal">
+          <a href="#home" data-route="home">Inicio</a>
+          <a href="#arte-figurativo" data-route="arte-figurativo">Arte figurativo</a>
+          <a href="#arte-no-figurativo" data-route="arte-no-figurativo">Arte no figurativo</a>
+          <a href="#obras" data-route="obras">Obras</a>
+          <a href="#trayectoria" data-route="trayectoria">Trayectoria</a>
+          <a href="#contacto" data-route="contacto">Contacto</a>
+        </nav>
+        <button class="theme-toggle" id="theme-toggle" type="button" aria-label="Cambiar a modo oscuro" aria-pressed="false">
+          <svg class="icon-moon" viewBox="0 0 24 24" aria-hidden="true"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg>
+          <svg class="icon-sun" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg>
+        </button>
+        <button class="mobile-toggle" aria-label="Abrir menú" aria-expanded="false" aria-controls="main-nav">
+          <span></span><span></span><span></span>
+        </button>
+      </div>
     </div>
   </header>
 

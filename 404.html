@@ -5,7 +5,6 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="robots" content="noindex, nofollow">
   <title>Página no encontrada — José Mizdrají</title>
-  <meta http-equiv="refresh" content="3;url=/portfolio/">
   <style>
     body { font-family: Georgia, serif; display: flex; align-items: center; justify-content: center; min-height: 100vh; margin: 0; background: #f5f3ef; color: #2c2c2c; text-align: center; }
     h1 { font-size: 1.5rem; font-weight: 400; margin-bottom: 1rem; }
@@ -17,7 +16,31 @@
   <div>
     <h1>Página no encontrada</h1>
     <p>Redirigiendo al inicio en unos segundos…</p>
-    <a href="/portfolio/">Ir al inicio</a>
+    <a id="home-link" href="./">Ir al inicio</a>
   </div>
+  <script>
+    /*
+      GitHub Pages sirve esta página para cualquier URL que no exista.
+      Los portfolios personalizados se comparten como
+        https://.../portfolio-MET-2026
+      pero viven dentro de la app (index.html#portfolio-MET-2026), así que acá
+      se traduce la URL "linda" a la de la app y se redirige al instante.
+      Funciona igual bajo /portfolio/ (github.io) que en la raíz de un dominio propio.
+    */
+    (function () {
+      var parts = location.pathname.split('/').filter(Boolean);
+      var last = parts.length ? decodeURIComponent(parts[parts.length - 1]) : '';
+      // Raíz del sitio: en github.io es /<repo>/, en un dominio propio es /
+      var onGithubIo = /\.github\.io$/i.test(location.hostname);
+      var base = onGithubIo && parts.length ? '/' + parts[0] + '/' : '/';
+
+      if (/^portfolio-[A-Za-z0-9-]+$/i.test(last) && parts.length <= (onGithubIo ? 2 : 1)) {
+        location.replace(base + '#' + last);
+        return;
+      }
+      document.getElementById('home-link').setAttribute('href', base);
+      setTimeout(function () { location.replace(base); }, 3000);
+    })();
+  </script>
 </body>
 </html>

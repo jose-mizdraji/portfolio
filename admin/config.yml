@@ -1,6 +1,16 @@
 # yaml-language-server: $schema=https://unpkg.com/@sveltia/cms/schema/sveltia-cms.json
 #
 # Config de Sveltia CMS. Doc: https://sveltiacms.app/en/docs/
+#
+# Estructura del panel (en este orden):
+#   1. Obras                  → catálogo; cada obra es figurativa / no figurativa,
+#                               pertenece a 0..n series y se puede ocultar.
+#   2. Series                 → nombre, descripción, visible.
+#   3. Administrar portfolios → crear / habilitar / deshabilitar / borrar portfolios
+#                               personalizados (/portfolio-MET-2026) y editar los dos
+#                               portfolios base (Arte Figurativo / Arte No Figurativo).
+#   4. Inicio y Trayectoria
+#   5. Contacto
 
 backend:
   name: github
@@ -11,6 +21,7 @@ media_folder: assets/images
 public_folder: /portfolio/assets/images
 
 media_library:
+  name: default
   config:
     max_file_size: 2000000  # 2MB máximo por imagen
 
@@ -44,16 +55,38 @@ collections:
                 widget: string
                 pattern: ["^[a-z0-9-]+$", "Solo minúsculas, números y guiones"]
               - { label: Título, name: titulo, widget: string }
-              - { label: Categoría, name: categoria, widget: select, options: [Pinturas, Dibujos, Grabados, Esculturas] }
+              - label: "Portfolio al que pertenece"
+                name: tipo
+                widget: select
+                default: figurativo
+                options:
+                  - { label: Arte figurativo, value: figurativo }
+                  - { label: Arte no figurativo, value: no-figurativo }
+                hint: "Define en cuál de los dos portfolios aparece la obra."
+              - label: Disciplina
+                name: categoria
+                widget: select
+                options: [Pinturas, Dibujos, Grabados, Esculturas]
               - { label: Año, name: año, widget: number, value_type: int }
               - { label: Técnica, name: tecnica, widget: string }
-              - { label: Materiales, name: materiales, widget: string }
-              - { label: Medidas, name: medidas, widget: string }
-              - { label: Serie, name: serie, widget: string, required: false }
-              - { label: Descripción, name: descripcion, widget: text }
-              - { label: Estado, name: estado, widget: select, options: [disponible, vendida, reservada] }
-              - { label: "Precio en USD (opcional)", name: precio, widget: number, value_type: float, required: false }
-              - { label: "Mostrar precio en el sitio", name: mostrarPrecio, widget: boolean, default: false }
+              - { label: Medidas, name: medidas, widget: string, hint: "Ej: 70 x 50 cm" }
+              - { label: "Descripción (opcional)", name: descripcion, widget: text, required: false }
+              - label: Series
+                name: series
+                widget: relation
+                required: false
+                multiple: true
+                collection: series
+                file: series
+                value_field: '{{series.*.id}}'
+                search_fields: ['{{series.*.nombre}}']
+                display_fields: ['{{series.*.nombre}}']
+                hint: "Una obra puede estar en varias series, o en ninguna (en ese caso aparece en «Otras obras»)."
+              - label: "Visible en el sitio"
+                name: visible
+                widget: boolean
+                default: true
+                hint: "Desactivá esta opción para ocultar la obra sin borrarla. Se puede volver a mostrar cuando quieras, y seguir incluyéndola en portfolios personalizados."
               - label: "Imagen principal"
                 name: imagenPrincipal
                 widget: image
@@ -69,6 +102,125 @@ collections:
               - { label: "Fecha de carga", name: fechaCarga, widget: datetime, required: false }
 
   # ─────────────────────────────────────────────────────────────────────
+  # SERIES
+  # ─────────────────────────────────────────────────────────────────────
+  - name: series
+    label: Series
+    icon: collections_bookmark
+    files:
+      - name: series
+        label: Series de obras
+        file: data/series.json
+        fields:
+          - label: Series
+            name: series
+            widget: list
+            summary: "{{nombre}}"
+            fields:
+              - label: ID interno
+                name: id
+                widget: uuid
+                hint: "Se genera solo. No se edita."
+              - { label: Nombre, name: nombre, widget: string }
+              - label: Descripción
+                name: descripcion
+                widget: text
+              - label: "Imagen de portada (opcional)"
+                name: imagen
+                widget: image
+                required: false
+                hint: "Si no se carga, se usa la imagen de la primera obra de la serie."
+              - label: "Visible en el sitio"
+                name: visible
+                widget: boolean
+                default: true
+                hint: "Si la ocultás, la serie deja de mostrarse y sus obras pasan a «Otras obras» (las obras no se borran)."
+
+  # ─────────────────────────────────────────────────────────────────────
+  # ADMINISTRAR PORTFOLIOS
+  # ─────────────────────────────────────────────────────────────────────
+  - name: portfolios
+    label: Administrar portfolios
+    icon: folder_special
+    files:
+      - name: personalizados
+        label: Portfolios personalizados
+        file: data/portfolios-personalizados.json
+        fields:
+          - label: Portfolios
+            name: portfolios
+            widget: list
+            summary: "{{enlace}} — {{titulo}}"
+            hint: "Cada portfolio tiene su propio enlace (ej: josemizdraji.com/portfolio-MET-2026) y se puede descargar en PDF, Word (.docx) y OpenDocument (.odt) desde su página."
+            fields:
+              - label: "Enlace (lo que va después de «portfolio-»)"
+                name: enlace
+                widget: string
+                pattern: ["^[A-Za-z0-9-]+$", "Solo letras, números y guiones, sin espacios ni tildes. Ej: MET-2026"]
+                hint: "Si escribís MET-2026, el portfolio queda en …/portfolio-MET-2026."
+              - label: "Habilitado (visible por el enlace)"
+                name: habilitado
+                widget: boolean
+                default: true
+                hint: "Desactivá esta opción para deshabilitar el enlace sin borrar el portfolio. Atención: es solo un cierre del enlace en el sitio, no una protección; los datos del repositorio son públicos."
+              - { label: Título, name: titulo, widget: string }
+              - { label: "Destinatario (opcional)", name: destinatario, widget: string, required: false, hint: "Ej: Museo MALBA, Convocatoria Louvre 2025." }
+              - { label: "Descripción (opcional)", name: descripcion, widget: text, required: false }
+              - label: "Tipo de contenido"
+                name: tipo
+                widget: select
+                default: mixto
+                options:
+                  - { label: Arte figurativo, value: figurativo }
+                  - { label: Arte no figurativo, value: no-figurativo }
+                  - { label: Mixto (ambos), value: mixto }
+                hint: "En figurativo / no figurativo, las series incluyen solo las obras de ese tipo (salvo las que elijas a mano)."
+              - label: "Series y obras"
+                name: secciones
+                widget: list
+                required: false
+                hint: "Cada ítem es una sección del portfolio, en el orden en que se cargan. Una misma serie puede tener obras distintas en cada portfolio."
+                fields:
+                  - label: Serie
+                    name: serie
+                    widget: relation
+                    required: false
+                    collection: series
+                    file: series
+                    value_field: '{{series.*.id}}'
+                    search_fields: ['{{series.*.nombre}}']
+                    display_fields: ['{{series.*.nombre}}']
+                    hint: "Dejá vacío para una sección de «Otras obras» (obras sueltas, sin serie)."
+                  - label: Obras
+                    name: obras
+                    widget: relation
+                    required: false
+                    multiple: true
+                    collection: obras
+                    file: obras
+                    value_field: '{{obras.*.id}}'
+                    search_fields: ['{{obras.*.titulo}}', '{{obras.*.id}}']
+                    display_fields: ['{{obras.*.titulo}}']
+                    hint: "Si no elegís ninguna, entran todas las obras visibles de la serie. Si elegís, se incluyen exactamente esas, incluso las que estén ocultas en el sitio."
+
+      - name: base-figurativo-no-figurativo
+        label: Portfolios base (Arte Figurativo y No Figurativo)
+        file: data/portfolios-base.json
+        fields:
+          - label: Arte Figurativo
+            name: figurativo
+            widget: object
+            fields:
+              - { label: "Descripción (opcional)", name: descripcion, widget: text, required: false }
+              - { label: "Imagen de la tarjeta (opcional)", name: imagen, widget: image, required: false, hint: "Si no se carga, se usa una obra del portfolio." }
+          - label: Arte No Figurativo
+            name: noFigurativo
+            widget: object
+            fields:
+              - { label: "Descripción (opcional)", name: descripcion, widget: text, required: false }
+              - { label: "Imagen de la tarjeta (opcional)", name: imagen, widget: image, required: false, hint: "Si no se carga, se usa una obra del portfolio." }
+
+  # ─────────────────────────────────────────────────────────────────────
   # INICIO Y TRAYECTORIA
   # ─────────────────────────────────────────────────────────────────────
   - name: bio
@@ -80,7 +232,7 @@ collections:
         file: data/bio.json
         fields:
           - { label: Nombre completo, name: nombre, widget: string }
-          - { label: "Subtítulo", name: subtitulo, widget: string }
+          - { label: "Subtítulo", name: subtitulo, widget: string, hint: "Aparece debajo del nombre. Ej: Artista visual correntino." }
           - { label: "Lugar y fecha de nacimiento", name: nacimiento, widget: string, required: false }
           - { label: "Título profesional", name: tituloProfesional, widget: string, required: false }
 
@@ -101,7 +253,7 @@ collections:
             widget: text
             required: false
 
-          - label: "Imágenes de las 4 categorías (tarjetas del inicio)"
+          - label: "Imágenes de las 4 disciplinas (tarjetas del inicio)"
             name: imagenesCategorias
             widget: object
             required: false
@@ -128,28 +280,34 @@ collections:
             name: premios
             widget: list
             summary: "{{año}} — {{titulo}}"
+            hint: "En Trayectoria se muestran solo los marcados como «Destacado» (si no marcás ninguno, los primeros 5). El resto queda en «Ver todos»."
             fields:
               - { label: Año,    name: año,   widget: string, required: false }
               - { label: Título, name: titulo, widget: string }
               - { label: Lugar,  name: lugar,  widget: string, required: false }
+              - { label: "Destacado (se muestra en Trayectoria)", name: destacado, widget: boolean, default: false, required: false }
 
           - label: Exposiciones individuales
             name: exposicionesIndividuales
             widget: list
             summary: "{{año}} — {{titulo}}"
+            hint: "En Trayectoria se muestran solo las marcadas como «Destacada» (si no marcás ninguna, las primeras 6). El resto queda en «Ver todas»."
             fields:
               - { label: Año,    name: año,   widget: string, required: false }
               - { label: Título, name: titulo, widget: string }
               - { label: Lugar,  name: lugar,  widget: string, required: false }
+              - { label: "Destacada (se muestra en Trayectoria)", name: destacado, widget: boolean, default: false, required: false }
 
           - label: Exposiciones colectivas
             name: exposicionesColectivas
             widget: list
             summary: "{{año}} — {{titulo}}"
+            hint: "En Trayectoria se muestran solo las marcadas como «Destacada» (si no marcás ninguna, las primeras 6). El resto queda en «Ver todas»."
             fields:
               - { label: Año,    name: año,   widget: string, required: false }
               - { label: Título, name: titulo, widget: string }
               - { label: Lugar,  name: lugar,  widget: string, required: false }
+              - { label: "Destacada (se muestra en Trayectoria)", name: destacado, widget: boolean, default: false, required: false }
 
           - label: "Colecciones (museos con obra en su acervo)"
             name: colecciones
@@ -180,7 +338,5 @@ collections:
         file: data/contacto.json
         fields:
           - { label: Email,       name: email,     widget: string, required: false }
-          - { label: Instagram,   name: instagram, widget: string, required: false }
-          - { label: Facebook,    name: facebook,  widget: string, required: false }
-          - { label: WhatsApp,    name: whatsapp,  widget: string, required: false }
-          - { label: Ubicación,   name: direccion, widget: string, required: false }
+          - { label: "Instagram (usuario, sin @)", name: instagram, widget: string, required: false }
+          - { label: "Facebook (enlace completo)", name: facebook,  widget: string, required: false }
