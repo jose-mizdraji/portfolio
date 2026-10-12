@@ -28,6 +28,28 @@
           ]
         }
       ]
+    },
+    {
+      "enlace": "Louvre-2026",
+      "habilitado": true,
+      "titulo": "Portfolio - Concurso de Arte Latinoamericano en el Louvre - 2028",
+      "destinatario": "Musero del Louvre",
+      "descripcion": "aa",
+      "tipo": "no-figurativo",
+      "secciones": [
+        {
+          "serie": "60b8fc92-df28-4317-8269-d314de7ca51c",
+          "obras": [
+            "laninanr4"
+          ]
+        },
+        {
+          "serie": "934c9d37-d894-41a3-af26-ef5cccd1d2a1",
+          "obras": [
+            "pintura-01"
+          ]
+        }
+      ]
     }
   ]
 }
