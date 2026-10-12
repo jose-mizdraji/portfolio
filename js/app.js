@@ -404,6 +404,7 @@ const App = {
         <div class="container">
           <div class="hero-grid">
             <div class="hero-content fade-in">
+              <div class="hero-rule" aria-hidden="true"></div>
               <h1 class="hero-title">${esc(bio.nombre)}</h1>
               <p class="hero-subtitle">${esc(bio.subtitulo)}</p>
               <p class="hero-text">${esc(textoInicio)}</p>
