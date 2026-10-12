@@ -1,6 +1,6 @@
 # José Mizdraji — Portafolio (GitHub Pages + Sveltia CMS)
 
-Sitio estático (sin backend) para el portafolio del artista visual José Mizdraji, con panel de administración web para cargar y editar obras, series y portfolios sin tocar código, y un **generador de portfolios personalizados** que se publican como página web y se descargan en PDF, Word y OpenDocument.
+Sitio estático (sin backend) para el portafolio del artista visual José Mizdraji, con panel de administración web para cargar y editar obras, series y portfolios sin tocar código, y un **generador de portfolios personalizados**: cada uno se publica como página web con su propio enlace para compartir, y desde el panel (**Enlaces y descargas**) se copia el enlace y se baja en PDF, Word y OpenDocument.
 
 **Sitio:** https://jose-mizdraji.github.io/portfolio/
 **Panel de administración:** https://jose-mizdraji.github.io/portfolio/admin/
@@ -21,7 +21,7 @@ portfolio/
 │   ├── model.js                  # Lógica pura: series, portfolios, qué obras entran dónde
 │   ├── util.js                   # escapeHtml, sanitizeUrl, normalizePath, slugify
 │   ├── theme.js                  # Modo claro/oscuro (se carga en el <head>, sin parpadeo)
-│   ├── export/                   # Descargas (se cargan solo al tocar «Descargar»)
+│   ├── export/                   # Descargas (las usa solo la página «Enlaces y descargas» del panel)
 │   │   ├── index.js              # Punto de entrada: arma el documento y lo guarda
 │   │   ├── model.js              # Estructura común a los tres formatos
 │   │   ├── images.js             # Reduce las fotos a JPEG antes de incrustarlas
@@ -38,9 +38,13 @@ portfolio/
 │   ├── bio.json                  # Imágenes del inicio + biografía y trayectoria
 │   └── contacto.json             # Mail, Instagram, Facebook
 ├── admin/                        # Panel de administración (Sveltia CMS)
-│   ├── index.html
-│   └── config.yml
-├── assets/images/                # Todas las fotos subidas desde el panel
+│   ├── index.html                # Carga Sveltia + portfolio-extras.js
+│   ├── config.yml                # Qué se puede editar y cómo
+│   ├── portfolio-extras.js       # Ítem «Enlaces y descargas» en el menú + aviso con el enlace al crear un portfolio
+│   ├── portfolios.html / .css / .js   # Página «Enlaces y descargas»: copiar enlaces y descargar PDF/Word/ODT
+├── assets/
+│   ├── images/                   # Todas las fotos subidas desde el panel
+│   └── icons/                    # Favicon (detalle del nido, identidad visual de José) y apple-touch-icon
 ├── robots.txt
 ├── sitemap.xml
 └── .nojekyll                     # Evita que GitHub Pages procese el sitio con Jekyll
@@ -105,11 +109,22 @@ Reglas de las secciones:
 
 Para **borrar** un portfolio, se elimina su ítem de la lista y se guarda. Para **crear** uno, «Agregar» al final de la lista.
 
-Cada portfolio publicado tiene:
+### Entregar el enlace: al crear y en «Enlaces y descargas»
 
-- **Página web** en `#portfolio-<enlace>` (se ve igual con `/portfolio-<enlace>`, ver más abajo), con lightbox para recorrer las obras (flechas del teclado, Esc para cerrar).
-- **Botones de descarga**: PDF (A4 horizontal), Word (`.docx`) y OpenDocument (`.odt`), con portada, secciones por serie, una obra por página con su ficha técnica y página de contacto. Los archivos se generan **en el navegador de quien descarga**; no se sube nada a ningún servidor. Se llaman `Jose-Mizdraji_portfolio-<enlace>.<ext>`.
-- `noindex`: se le pide a los buscadores que no lo indexen.
+El enlace completo (`https://…/portfolio-MET-2026`) es lo que se le pasa a quien tiene que ver el portfolio. Hay dos lugares donde se obtiene, ambos con botón **Copiar enlace**:
+
+1. **Al guardar un portfolio nuevo** (o cambiarle el enlace), el panel muestra un aviso con el enlace completo listo para copiar. Si se guarda un portfolio ya existente, el aviso no vuelve a aparecer.
+2. **Menú lateral → «Enlaces y descargas»** (debajo de «Administrar portfolios», o directo en `/admin/portfolios.html`). Lista todos los portfolios publicados —el último creado primero— con su enlace, un enlace alternativo por si el principal no abre, y las **descargas**.
+
+Los archivos para descargar viven **solo en el panel**, no en la página pública que se comparte: quien recibe el enlace ve el portfolio y nada más.
+
+- **PDF** (A4 horizontal), **Word** (`.docx`) y **OpenDocument** (`.odt`), con portada, secciones por serie, una obra por página con su ficha técnica y página de contacto.
+- Los archivos se generan **en el navegador**; no se sube nada a ningún servidor. Se llaman `Jose-Mizdraji_portfolio-<enlace>.<ext>`.
+- Usan lo que está **publicado** en el sitio: un portfolio recién guardado aparece en la lista y en su enlace entre 1 y 2 minutos después (lo que tarda GitHub Pages en redeployar). Mientras tanto, «Actualizar lista» lo vuelve a buscar.
+
+Cada portfolio publicado, además, tiene su **página web** en `#portfolio-<enlace>` (se ve igual con `/portfolio-<enlace>`, ver más abajo), con lightbox para recorrer las obras (flechas del teclado, Esc para cerrar) y marcada `noindex`: se le pide a los buscadores que no la indexen.
+
+> `admin/portfolios.html` es una página de lectura: no tiene claves ni escribe nada, y muestra datos que ya son públicos. Cualquiera que conozca su dirección puede verla, igual que el resto del sitio; por eso no hay nada sensible ahí.
 
 ### Cómo funcionan las URLs «lindas»
 
@@ -181,15 +196,19 @@ Sveltia guarda las rutas con prefijo absoluto (`/portfolio/assets/images/...`). 
 
 **Importante:** no agregar `media_folder`/`public_folder` a nivel de colección o archivo en `admin/config.yml`. Sveltia los interpreta como relativos a la carpeta del entry, así que poner `media_folder: assets/images/obras` dentro de la colección de obras (cuyo archivo es `data/obras.json`) hace que las imágenes terminen en `data/assets/images/obras/`. Usar solo el `media_folder` global de arriba del archivo.
 
+## 🪹 Favicon
+
+El ícono de la pestaña es un detalle del cuadro del nido, parte de la identidad visual de José. Los archivos están en `assets/icons/` (`favicon.ico` con 16, 32 y 48 px, `favicon-16x16.png`, `favicon-32x32.png` y `apple-touch-icon.png` de 180 px para la pantalla de inicio del iPhone) y se enlazan en `index.html`, `admin/index.html` y `admin/portfolios.html`. Como es una pintura con mucho detalle, a 16 px se lee como una textura ocre y marrón más que como un nido; a 32 px y más se reconoce. Para reemplazarlo, generar de nuevo esos cuatro archivos con los mismos nombres.
+
 ## 🌗 Modo oscuro
 
 Botón en la barra superior. **El sitio siempre arranca en modo claro**, aunque el sistema operativo esté en oscuro; si alguien elige el modo oscuro, el navegador lo recuerda (`localStorage`). El tema se aplica con el atributo `data-theme` en `<html>` desde `js/theme.js`, antes de pintar, para que no haya destello.
 
 ## 🔒 Seguridad
 
-- **CSP** en `index.html` y `admin/index.html` vía `<meta>` tag. En el sitio público es estricta: `script-src 'self'` (sin scripts ni manejadores `onclick`/`onerror` en línea), `connect-src 'self'`, `img-src 'self' data:`. Limitación conocida: `frame-ancestors` no funciona en meta tags — protección anti-clickjacking real requiere dominio propio + proxy (Cloudflare).
+- **CSP** en `index.html`, `admin/index.html` y `admin/portfolios.html` vía `<meta>` tag. En el sitio público es estricta: `script-src 'self'` (sin scripts ni manejadores `onclick`/`onerror` en línea), `connect-src 'self'`, `img-src 'self' data:`. Limitación conocida: `frame-ancestors` no funciona en meta tags — protección anti-clickjacking real requiere dominio propio + proxy (Cloudflare).
 - **jsPDF está vendorizado** (`js/vendor/`, con su licencia) en vez de cargarse desde un CDN, para no abrir la CSP a terceros ni depender de que el CDN esté disponible. Para actualizarlo: reemplazar el archivo por la nueva versión de `jspdf.umd.min.js` y volver a probar la descarga de PDF.
-- **SRI** en el script de Sveltia CMS, versión fijada (`@0.172.4`) con hash SHA-384. Para actualizar: bajar el tarball de `https://registry.npmjs.org/@sveltia/cms`, calcular `openssl dgst -sha384 -binary dist/sveltia-cms.js | openssl base64 -A`, reemplazar versión + hash en `admin/index.html`.
+- **SRI** en el script de Sveltia CMS, versión fijada (`@0.172.4`) con hash SHA-384. Para actualizar: bajar el tarball de `https://registry.npmjs.org/@sveltia/cms`, calcular `openssl dgst -sha384 -binary dist/sveltia-cms.js | openssl base64 -A`, reemplazar versión + hash en `admin/index.html`. **Después de actualizar, revisar `admin/portfolio-extras.js`**: agrega el ítem «Enlaces y descargas» al menú lateral de Sveltia copiando un ítem existente, y eso depende de cómo Sveltia arma su menú. Si tras actualizar el ítem desaparece, el resto del panel sigue funcionando y la página sigue disponible en `/admin/portfolios.html`.
 - **Ningún secreto en el repo.** El token vive solo en el navegador.
 - **`escapeHtml()`** en todo el contenido dinámico, **`sanitizeUrl()`** en URLs arbitrarias (bloquea `javascript:`), validación de formato de email antes de armar los enlaces `mailto:`. En los archivos DOCX/ODT/PDF generados, el texto se escapa/limpia antes de escribirse.
 - **`rel="noopener noreferrer"`** en todos los links externos.
@@ -214,7 +233,10 @@ Hay `<title>`, meta description y JSON-LD (schema.org `Person` / `VisualArtwork`
 - **"N fields have errors" al guardar** → algún campo requerido quedó vacío. `año`, `lugar`, `descripción` de la obra y la serie/obras de una sección son opcionales; `título`, `enlace` y el nombre de la serie no.
 - **Un portfolio muestra «no está disponible»** → revisar que esté **Habilitado** y que el enlace del panel coincida con el de la URL (sin el prefijo `portfolio-`).
 - **Una obra no aparece en ningún lado** → mirar si está marcada como no visible; las obras ocultas solo se ven dentro de un portfolio personalizado que las incluya a mano.
-- **La descarga no arranca o falla** → probar con un navegador actualizado; el mensaje bajo los botones indica el error. Si el portfolio tiene muchas obras con fotos pesadas, puede tardar unos segundos.
+- **La descarga no arranca o falla** → se hace desde «Enlaces y descargas» en el panel. Probar con un navegador actualizado; el mensaje bajo los botones indica el error. Si el portfolio tiene muchas obras con fotos pesadas, puede tardar unos segundos.
+- **El enlace de un portfolio nuevo no abre, o no está en «Enlaces y descargas»** → GitHub Pages tarda 1-2 minutos en publicar lo que se guarda. Esperar y tocar «Actualizar lista» (o recargar el enlace).
+- **El aviso con el enlace no apareció al guardar** → solo aparece cuando el enlace es nuevo. Para un portfolio ya existente, el enlace está siempre en «Enlaces y descargas».
+- **El ícono de la pestaña no cambia** → los navegadores guardan el favicon muy agresivamente; probar en una ventana privada o recargar con `Ctrl+Shift+R`.
 - **Los cambios no se reflejan** → GitHub Pages tarda 1-2 minutos en redeployar. `Ctrl+Shift+R` para forzar recarga sin caché.
 - **`git push` rechazado** → el panel commiteó algo que no tenés local. `git pull origin main --rebase` y volvé a pushear.
 

@@ -9,8 +9,15 @@
 #   3. Administrar portfolios → crear / habilitar / deshabilitar / borrar portfolios
 #                               personalizados (/portfolio-MET-2026) y editar los dos
 #                               portfolios base (Arte Figurativo / Arte No Figurativo).
+#      → «Enlaces y descargas»  (ítem de menú agregado por portfolio-extras.js, justo
+#                               debajo de «Administrar portfolios»): enlace completo para
+#                               copiar y descargas PDF / Word / ODT de cada portfolio.
+#                               Además, al guardar un portfolio nuevo se muestra su enlace.
 #   4. Inicio y Trayectoria
 #   5. Contacto
+#
+# OJO: el «label» de la colección portfolios («Administrar portfolios») lo usa
+# portfolio-extras.js para ubicar el menú. Si se cambia acá, cambiarlo también allá.
 
 backend:
   name: github
@@ -151,13 +158,13 @@ collections:
             name: portfolios
             widget: list
             summary: "{{enlace}} — {{titulo}}"
-            hint: "Cada portfolio tiene su propio enlace (ej: josemizdraji.com/portfolio-MET-2026) y se puede descargar en PDF, Word (.docx) y OpenDocument (.odt) desde su página."
+            hint: "Cada portfolio tiene su propio enlace (ej: josemizdraji.com/portfolio-MET-2026). Al guardar uno nuevo, el panel muestra el enlace completo para copiar. Después lo encontrás siempre —junto con las descargas en PDF, Word y OpenDocument— en «Enlaces y descargas», en el menú de la izquierda."
             fields:
               - label: "Enlace (lo que va después de «portfolio-»)"
                 name: enlace
                 widget: string
                 pattern: ["^[A-Za-z0-9-]+$", "Solo letras, números y guiones, sin espacios ni tildes. Ej: MET-2026"]
-                hint: "Si escribís MET-2026, el portfolio queda en …/portfolio-MET-2026."
+                hint: "Si escribís MET-2026, el portfolio queda en …/portfolio-MET-2026. Al guardar vas a ver el enlace completo para copiar y compartir."
               - label: "Habilitado (visible por el enlace)"
                 name: habilitado
                 widget: boolean

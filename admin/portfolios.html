@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="es" data-theme="light">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="robots" content="noindex, nofollow">
+  <title>Enlaces y descargas — Panel de José Mizdraji</title>
+
+  <!--
+    Esta página vive en /admin/ pero reutiliza los archivos del sitio (estilos,
+    lógica de portfolios y exportación). Para que las rutas relativas
+    ("data/obras.json", "assets/images/…") apunten a la raíz del sitio y no a
+    /admin/, se declara <base href="../">. Consecuencia: acá no se usan enlaces
+    que sean solo "#algo" (con <base> irían a la raíz del sitio).
+  -->
+  <base href="../">
+
+  <!-- Misma política estricta que el sitio público: solo scripts propios. -->
+  <meta http-equiv="Content-Security-Policy" content="
+    default-src 'self';
+    script-src 'self';
+    style-src 'self' 'unsafe-inline' https://fonts.googleapis.com;
+    font-src 'self' https://fonts.gstatic.com;
+    img-src 'self' data:;
+    connect-src 'self';
+    object-src 'none';
+    base-uri 'self';
+    form-action 'none';
+  ">
+
+  <link rel="icon" href="assets/icons/favicon.ico" sizes="48x48">
+  <link rel="icon" type="image/png" sizes="32x32" href="assets/icons/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="assets/icons/favicon-16x16.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="assets/icons/apple-touch-icon.png">
+  <link rel="stylesheet" href="css/main.css">
+  <link rel="stylesheet" href="admin/portfolios.css">
+  <script src="js/theme.js"></script>
+  <script type="module" src="admin/portfolios.js"></script>
+</head>
+<body class="adm">
+  <header class="adm-top">
+    <div class="adm-wrap adm-top-inner">
+      <a class="adm-back" href="admin/">&larr; Volver al panel</a>
+      <span class="label">Administrar portfolios</span>
+    </div>
+  </header>
+
+  <main class="adm-wrap adm-main">
+    <h1 class="adm-title">Enlaces y descargas</h1>
+    <p class="adm-lead">
+      Acá están los portfolios personalizados que ya están publicados. Copiá el enlace
+      para compartirlo, o descargá el portfolio en PDF, Word u OpenDocument para enviarlo
+      como archivo.
+    </p>
+
+    <div class="adm-toolbar">
+      <button type="button" class="btn btn-sm btn-outline" id="adm-refresh">Actualizar lista</button>
+      <a class="adm-textlink" href="admin/#/collections/portfolios/entries/personalizados">Crear o editar portfolios</a>
+      <span class="adm-updated" id="adm-updated" role="status" aria-live="polite"></span>
+    </div>
+    <p class="adm-note">
+      Un portfolio nuevo (o con cambios) aparece acá y en su enlace entre 1 y 2 minutos después de
+      guardarlo en el panel. Si todavía no lo ves, esperá un momento y tocá «Actualizar lista».
+    </p>
+
+    <div id="adm-list" aria-live="polite">
+      <p class="adm-empty">Cargando portfolios…</p>
+    </div>
+  </main>
+</body>
+</html>

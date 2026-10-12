@@ -963,7 +963,6 @@ const App = {
     const titulo = p.titulo || `Portfolio ${p.enlace}`;
     const todas = sections.flatMap(s => s.works.map(w => ({ work: w, seccion: s })));
     this.lightbox = { items: todas, index: 0, portfolio: p };
-    this.currentPortfolio = { portfolio: p, sections };
 
     this.updateMeta({
       title: `${titulo} — José Mizdraji`,
@@ -993,14 +992,6 @@ const App = {
             <span>${this.plural(todas.length, 'obra', 'obras')}</span>
           </div>
 
-          ${todas.length ? `
-          <div class="download-bar">
-            <span class="label">Descargar portfolio</span>
-            <button type="button" class="btn btn-sm btn-outline" data-download="pdf">PDF</button>
-            <button type="button" class="btn btn-sm btn-outline" data-download="docx">Word (.docx)</button>
-            <button type="button" class="btn btn-sm btn-outline" data-download="odt">OpenDocument (.odt)</button>
-            <div class="download-status" id="download-status" role="status" aria-live="polite"></div>
-          </div>` : ''}
 
           ${secHtml || this.emptyState('Este portfolio todavía no tiene obras.')}
         </div>
@@ -1028,9 +1019,6 @@ const App = {
       if (e.key === 'ArrowRight') { e.preventDefault(); this.stepLightbox(1); }
     });
 
-    document.querySelectorAll('[data-download]').forEach(btn => {
-      btn.addEventListener('click', () => this.download(btn.dataset.download));
-    });
   },
 
   openLightbox(index) {
@@ -1094,40 +1082,6 @@ const App = {
         </div>`;
   },
 
-  // ---------- Descarga (PDF / DOCX / ODT) ----------
-
-  async download(format) {
-    const status = document.getElementById('download-status');
-    const buttons = [...document.querySelectorAll('[data-download]')];
-    const { portfolio, sections } = this.currentPortfolio || {};
-    if (!portfolio) return;
-
-    const say = (msg, isError = false) => {
-      if (!status) return;
-      status.textContent = msg;
-      status.classList.toggle('error', isError);
-    };
-    buttons.forEach(b => { b.disabled = true; });
-    say('Preparando el archivo…');
-    try {
-      // La librería de exportación se carga recién acá: el resto del sitio no la necesita.
-      const { exportPortfolio } = await import('./export/index.js');
-      await exportPortfolio({
-        format,
-        cat: this.cat,
-        portfolio,
-        sections,
-        siteUrl: SITE_URL,
-        onProgress: (hechas, total) => say(`Procesando imágenes… ${hechas} de ${total}`)
-      });
-      say('Listo: el archivo se descargó.');
-    } catch (err) {
-      console.error('Error al exportar:', err);
-      say('No se pudo generar el archivo. Probá de nuevo o usá otro formato.', true);
-    } finally {
-      buttons.forEach(b => { b.disabled = false; });
-    }
-  }
 };
 
 // Los módulos se ejecutan diferidos (antes de DOMContentLoaded): se arranca una sola vez.

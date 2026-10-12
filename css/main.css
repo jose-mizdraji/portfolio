@@ -241,13 +241,7 @@ a:focus-visible, button:focus-visible, input:focus-visible, select:focus-visible
 .more-link:hover { color: var(--color-text); }
 
 /* Portfolio personalizado */
-.download-bar { display: flex; flex-wrap: wrap; align-items: center; gap: 0.75rem; padding: 1rem 1.25rem; background: var(--color-bg-alt); border: 1px solid var(--color-border-light); margin-bottom: 3rem; }
-.download-bar .label { margin-right: 0.5rem; }
-.download-status { font-size: 0.8rem; color: var(--color-text-secondary); flex-basis: 100%; }
-.download-status:empty { display: none; }
 .portfolio-section + .portfolio-section { margin-top: 3.5rem; }
-.download-status.error { color: #b3261e; }
-:root[data-theme="dark"] .download-status.error { color: #f2b8b5; }
 .portfolio-section-desc { color: var(--color-text-secondary); line-height: 1.8; max-width: 760px; margin: -0.5rem 0 1.75rem; white-space: pre-line; }
 
 /* Visor de obra (portfolio personalizado) */
