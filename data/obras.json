@@ -124,6 +124,23 @@
       "imagenPrincipal": "/portfolio/assets/images/Captura de pantalla de 2026-07-26 14-05-01.png",
       "galeria": [],
       "fechaCarga": "2026-07-26T14:06"
+    },
+    {
+      "id": "laninanr4",
+      "titulo": "Sin Título - 12 de Octubre 2026",
+      "categoria": "Dibujos",
+      "año": 2026,
+      "tecnica": "Tinta china sobre papel creppe",
+      "materiales": "-",
+      "medidas": "12cmx25cm",
+      "serie": "Recuerdos",
+      "descripcion": "Esta es una obra nueva",
+      "estado": "disponible",
+      "precio": null,
+      "mostrarPrecio": false,
+      "imagenPrincipal": "/portfolio/assets/images/jose-ej.png",
+      "galeria": [],
+      "fechaCarga": "2026-10-12T11:12"
     }
   ],
   "_pending_review": [
