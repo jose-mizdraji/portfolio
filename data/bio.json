@@ -202,6 +202,48 @@
       "año": "",
       "titulo": "Muestra individual",
       "lugar": "Museo Municipal Julio Pagano"
+    },
+    {
+      "año": "2022",
+      "titulo": "\"Pandemia y lo que vendrá\"",
+      "lugar": "Museo de Bellas Artes  de Corrientes",
+      "destacado": true
+    },
+    {
+      "año": "2023",
+      "titulo": "\"Nidos Cosmológicos\"",
+      "lugar": "Asociación Cultural Inglesa de Corrientes",
+      "destacado": true
+    },
+    {
+      "año": "2023",
+      "titulo": "\"Abstracción\"",
+      "lugar": "Café Hotel Guarani. Corrientes.",
+      "destacado": true
+    },
+    {
+      "año": "2024",
+      "titulo": "\"La niña de la caja y el Paisaje de su entorno\"",
+      "lugar": "Sala del Sol. Centro Cultural Extensión Universitario. Corrientes.",
+      "destacado": true
+    },
+    {
+      "año": "2026",
+      "titulo": "\"Criaturas fantásticas y el Paisaje de mi entorno\" (Cerámicas y Pinturas)",
+      "lugar": "Museo \"Humberto Gómez Lollo\", Resistencia - Chaco.",
+      "destacado": true
+    },
+    {
+      "año": "2026",
+      "titulo": "\"Manifestaciones de Mi Ahora\"",
+      "lugar": "Museo de Bellas Artes \"Juan Ramon Vidal\" - Corrientes.",
+      "destacado": true
+    },
+    {
+      "año": "2026",
+      "titulo": "\"La rebelión de los cuchillos\"",
+      "lugar": "Micelio - Galería de arte de Corrientes",
+      "destacado": true
     }
   ],
   "exposicionesColectivas": [
