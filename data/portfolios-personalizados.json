@@ -1,6 +1,35 @@
 {
   "portfolios": [
     {
+      "enlace": "Louvre-2028",
+      "habilitado": true,
+      "titulo": "Portfolio - Concurso de Arte Latinoamericano en el Louvre - 2028",
+      "destinatario": "Musero del Louvre",
+      "descripcion": "aa",
+      "tipo": "no-figurativo",
+      "secciones": [
+        {
+          "serie": "60b8fc92-df28-4317-8269-d314de7ca51c",
+          "obras": [
+            "laninanr4",
+            "pintura-01"
+          ]
+        },
+        {
+          "serie": "934c9d37-d894-41a3-af26-ef5cccd1d2a1",
+          "obras": [
+            "pintura-01",
+            "ejemplo-dibujo-01"
+          ]
+        },
+        {
+          "obras": [
+            "pintura-03"
+          ]
+        }
+      ]
+    },
+    {
       "enlace": "MACC-2027",
       "habilitado": true,
       "titulo": "Portfolio Convocatoria 2027 Museo de Arte Contemporáneo de Corrientes",
@@ -30,23 +59,20 @@
       ]
     },
     {
-      "enlace": "Louvre-2028",
+      "enlace": "2027",
       "habilitado": true,
-      "titulo": "Portfolio - Concurso de Arte Latinoamericano en el Louvre - 2028",
-      "destinatario": "Musero del Louvre",
-      "descripcion": "aa",
-      "tipo": "no-figurativo",
+      "titulo": "Sueño de una Noche",
+      "destinatario": "",
+      "descripcion": "",
+      "tipo": "mixto",
       "secciones": [
         {
-          "serie": "60b8fc92-df28-4317-8269-d314de7ca51c",
+          "serie": "",
           "obras": [
-            "laninanr4"
-          ]
-        },
-        {
-          "serie": "934c9d37-d894-41a3-af26-ef5cccd1d2a1",
-          "obras": [
-            "pintura-01"
+            "port001",
+            "port002",
+            "port003",
+            "port004"
           ]
         }
       ]
