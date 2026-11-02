@@ -3,8 +3,8 @@
     {
       "id": "pintura-01",
       "titulo": "Está es una pintura de ejemplo",
-      "categoria": "Pinturas",
       "tipo": "figurativo",
+      "categoria": "Pinturas",
       "año": 2024,
       "tecnica": "Técnica de ejemplo (ej: acrílico sobre tela)",
       "medidas": "70 x 50 cm",
@@ -20,8 +20,8 @@
     {
       "id": "ejemplo-pintura-02",
       "titulo": "Esto Antes era una Pintura y hoy?",
-      "categoria": "Dibujos",
       "tipo": "no-figurativo",
+      "categoria": "Dibujos",
       "año": 2023,
       "tecnica": "Técnica de ejemplo (ej: óleo sobre tela)",
       "medidas": "100 x 70 cm",
@@ -37,8 +37,8 @@
     {
       "id": "ejemplo-escultura-01",
       "titulo": "Escultura Animales del monte misterioso",
-      "categoria": "Esculturas",
       "tipo": "figurativo",
+      "categoria": "Esculturas",
       "año": 2023,
       "tecnica": "Técnica de ejemplo (ej: talla en madera)",
       "medidas": "60 x 40 x 30 cm",
@@ -55,8 +55,8 @@
     {
       "id": "ejemplo-grabado-01",
       "titulo": "[EJEMPLO] Obra de grabado — reemplazar",
-      "categoria": "Grabados",
       "tipo": "no-figurativo",
+      "categoria": "Grabados",
       "año": 2022,
       "tecnica": "Técnica de ejemplo (ej: aguafuerte)",
       "medidas": "45 x 60 cm",
@@ -72,8 +72,8 @@
     {
       "id": "ejemplo-dibujo-01",
       "titulo": "[EJEMPLO] Obra de dibujo — reemplazar",
-      "categoria": "Dibujos",
       "tipo": "figurativo",
+      "categoria": "Dibujos",
       "año": 2024,
       "tecnica": "Técnica de ejemplo (ej: tinta sobre papel)",
       "medidas": "50 x 35 cm",
@@ -89,8 +89,8 @@
     {
       "id": "pintura002",
       "titulo": "otra pintura mas",
-      "categoria": "Pinturas",
       "tipo": "figurativo",
+      "categoria": "Pinturas",
       "año": 2015,
       "tecnica": "Mixta",
       "medidas": "100 x 12 x 25",
@@ -108,25 +108,10 @@
       "fechaCarga": "2026-07-26T13:28"
     },
     {
-      "id": "pintura-03",
-      "titulo": "Sueño de una noche",
-      "categoria": "Pinturas",
-      "tipo": "no-figurativo",
-      "año": 2026,
-      "tecnica": "Acrílico sobre tela",
-      "medidas": "110cm x 110cm",
-      "descripcion": "Seguimos probando",
-      "series": [],
-      "visible": false,
-      "imagenPrincipal": "/portfolio/assets/images/Captura de pantalla de 2026-07-26 14-05-01.png",
-      "galeria": [],
-      "fechaCarga": "2026-07-26T14:06"
-    },
-    {
       "id": "laninanr4",
       "titulo": "Sin Título - 12 de Octubre 2026",
-      "categoria": "Dibujos",
       "tipo": "no-figurativo",
+      "categoria": "Dibujos",
       "año": 2026,
       "tecnica": "Tinta china sobre papel creppe",
       "medidas": "12cmx25cm",
@@ -138,6 +123,66 @@
       "imagenPrincipal": "/portfolio/assets/images/jose-ej.png",
       "galeria": [],
       "fechaCarga": "2026-10-12T11:12"
+    },
+    {
+      "id": "port001",
+      "titulo": "Sueño de una noche IV",
+      "tipo": "no-figurativo",
+      "categoria": "Pinturas",
+      "año": 2025,
+      "tecnica": "Acrílico sobre tela",
+      "medidas": "120cm x 120cm",
+      "descripcion": "",
+      "series": [],
+      "visible": true,
+      "imagenPrincipal": "/portfolio/assets/images/001.jpg",
+      "galeria": [],
+      "fechaCarga": "2026-11-02T17:17"
+    },
+    {
+      "id": "port002",
+      "titulo": "Sueño de una noche II",
+      "tipo": "no-figurativo",
+      "categoria": "Pinturas",
+      "año": 2024,
+      "tecnica": "Acrílico sobre tela",
+      "medidas": "120cm x 120cm",
+      "descripcion": "",
+      "series": [],
+      "visible": true,
+      "imagenPrincipal": "/portfolio/assets/images/002.jpg",
+      "galeria": [],
+      "fechaCarga": "2026-11-02T17:17"
+    },
+    {
+      "id": "port003",
+      "titulo": "Sueño de una noche VI",
+      "tipo": "no-figurativo",
+      "categoria": "Pinturas",
+      "año": 2026,
+      "tecnica": "Acrílico sobre tela",
+      "medidas": "120cm x 120cm",
+      "descripcion": "",
+      "series": [],
+      "visible": true,
+      "imagenPrincipal": "/portfolio/assets/images/003.jpg",
+      "galeria": [],
+      "fechaCarga": "2026-11-02T17:17"
+    },
+    {
+      "id": "port004",
+      "titulo": "Sueño de una noche V",
+      "tipo": "no-figurativo",
+      "categoria": "Pinturas",
+      "año": 2025,
+      "tecnica": "Acrílico sobre tela",
+      "medidas": "120cm x 120cm",
+      "descripcion": "",
+      "series": [],
+      "visible": true,
+      "imagenPrincipal": "/portfolio/assets/images/004.jpg",
+      "galeria": [],
+      "fechaCarga": "2026-11-02T17:17"
     }
   ]
 }
