@@ -1,69 +1,11 @@
 {
   "portfolios": [
     {
-      "enlace": "Louvre-2028",
-      "habilitado": true,
-      "titulo": "Portfolio - Concurso de Arte Latinoamericano en el Louvre - 2028",
-      "destinatario": "Musero del Louvre",
-      "descripcion": "aa",
-      "tipo": "no-figurativo",
-      "secciones": [
-        {
-          "serie": "60b8fc92-df28-4317-8269-d314de7ca51c",
-          "obras": [
-            "laninanr4",
-            "pintura-01"
-          ]
-        },
-        {
-          "serie": "934c9d37-d894-41a3-af26-ef5cccd1d2a1",
-          "obras": [
-            "pintura-01",
-            "ejemplo-dibujo-01"
-          ]
-        },
-        {
-          "obras": [
-            "pintura-03"
-          ]
-        }
-      ]
-    },
-    {
-      "enlace": "MACC-2027",
-      "habilitado": true,
-      "titulo": "Portfolio Convocatoria 2027 Museo de Arte Contemporáneo de Corrientes",
-      "destinatario": "Museo de Arte Contemporáneo de Corrientes - MACC",
-      "descripcion": "José Mizdraji es un reconocido artista plástico, grabador y docente argentino, nacido en la ciudad de Corrientes el 18 de mayo de 1957. Con más de 40 años de trayectoria ininterrumpida, consolidó su lugar como uno de los máximos referentes de las artes visuales del Nordeste argentino (NEA).\n\nHa realizado decenas de muestras individuales y participado en más de un centenar de exposiciones colectivas tanto en Argentina como en el exterior, llevando su arte a espacios icónicos como la Cámara de Diputados de la Nación, el Centro Cultural Borges, el Museo San Marcos en Toledo (España) y las embajadas argentinas en Brasil y Paraguay. Su labor como educador en instituciones clave, como el Instituto Superior \"Josefina Contte\", dejó además una huella imborrable en múltiples generaciones de artistas locales.",
-      "tipo": "figurativo",
-      "secciones": [
-        {
-          "serie": "934c9d37-d894-41a3-af26-ef5cccd1d2a1",
-          "obras": [
-            "ejemplo-pintura-02",
-            "pintura-01"
-          ]
-        },
-        {
-          "serie": "24ad26b3-e722-4c16-912d-b4c63f585d2e",
-          "obras": [
-            "laninanr4",
-            "ejemplo-dibujo-01"
-          ]
-        },
-        {
-          "obras": [
-            "pintura-03"
-          ]
-        }
-      ]
-    },
-    {
       "enlace": "2027",
       "habilitado": true,
       "titulo": "Sueño de una Noche",
-      "destinatario": "",
-      "descripcion": "José Mizdraji nació en la ciudad de Corrientes el 18 de mayo de 1957. Es Maestro en Artes Visuales y Profesor de Pintura y Grabado, con más de 40 años de trabajo ininterrumpido: dibuja y pinta desde niño, y se define a sí mismo como un artista ecléctico que no se ata a un único lenguaje — pasa de la abstracción a la figuración según lo que la obra le pida en cada momento.\n\nSe formó junto a referentes del arte argentino como Luis Felipe Noé, Sergio Bazán, Oscar Smoje, Luis Wells y Mónica Girón, y realizó clínicas de arte contemporáneo con Diana Aisemberg y Daniel García. Su obra recorre indistintamente la pintura, el dibujo, el grabado y la escultura, muchas veces combinando las cuatro disciplinas dentro de una misma serie.\n\nEntre 2020 y 2024 desarrolló la serie \"La niña de la caja\", inspirada en su sobrina jugando con una caja de cartón, que combina pintura, dibujo, grabado y escultura para construir un universo entre el encierro y la fantasía. Expuso de forma individual y colectiva en numerosos museos, centros culturales y galerías de Corrientes, Chaco, Santa Fe, Entre Ríos, Buenos Aires, Mendoza y también en España, y recibió distinciones en salones nacionales y regionales de pintura y grabado.",
+      "destinatario": "Portfolio 2027",
+      "descripcion": "José Mizdraji nació en la ciudad de Corrientes el 18 de mayo de 1957. Es Maestro en Artes Visuales y Profesor de Pintura y Grabado, con más de 40 años de trabajo ininterrumpido: dibuja y pinta desde niño, y se define a sí mismo como un artista ecléctico que no se ata a un único lenguaje — pasa de la abstracción a la figuración según lo que la obra le pida en cada momento.\n\nSe formó junto a referentes del arte argentino como Luis Felipe Noé, Sergio Bazán, Oscar Smoje, Luis Wells y Mónica Girón, y realizó clínicas de arte contemporáneo con Diana Aisemberg y Daniel García. Su obra recorre indistintamente la pintura, el dibujo, el grabado y la escultura.",
       "tipo": "mixto",
       "secciones": [
         {
