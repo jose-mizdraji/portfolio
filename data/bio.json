@@ -356,6 +356,42 @@
       "año": "",
       "titulo": "Participación en Salones Nacionales",
       "lugar": "San Juan"
+    },
+    {
+      "año": "2026",
+      "titulo": "ARTECO. 8va Edición de arte en corrientes. Museo de arte contemporáneo.            Pinturas abstractas. Museo Humberto Gómez Lollo. Resistencia Chaco.             Grupo Ñande Arte . feria Arteco. museo de bellas artes .Juan R.Vidal.corrientes.",
+      "lugar": "",
+      "destacado": true
+    },
+    {
+      "año": "2025",
+      "titulo": "ARTECO 7ma edición  de arte corrientes . Individual. Ctes .              Exposición de arte sacro . centro cultural nordeste .              Exposición colectiva museo de bellas artes ctes-              Instituto de cultural ctes instalación , cerámica .Ñande Arte.",
+      "lugar": "",
+      "destacado": true
+    },
+    {
+      "año": "2024",
+      "titulo": "362 Resistencia Chaco .proyecto Expresión en Movimiento.  -  Salvador Mizdraji-  Carolina     Sívori.-José Mizdraji -Cristina Tracogna  -  Muestra de Arte Federal. Salón de las Américas UNlaM. San Justo BsAs                ARTECO  6ta Feria  de Arte de Corrientes . Individual. Ctes.",
+      "lugar": "",
+      "destacado": true
+    },
+    {
+      "año": "2023",
+      "titulo": "Feria de Artes Resistencia Chaco  369 Galeria de arte Orto .            -Primer Mini Print Internacional .Rio Cuarto 2023.             -ARTECO .5ta Feria  de Arte de Corrientes .Galeria de Arte “ORTO”.Ctes.             -“Lo que nos aproxima “ Centro Cultural del Nordeste .Resistencia _Chaco.             -“Urgencia de un Paisaje que nos  habita”-Jose Mizdraji –Osvaldo Marcon..               Salón de los Pasos   Perdidos  de la Legislatura Provincial .Camara de Diputados .           _ Muestra colectiva Artistas Abstractos del Nordeste. Camara de Senadores .Ctes              II do .Intercambio Grafico .Museo de Bellas Artes de Tandil. Provincia de Bs.As.",
+      "lugar": "",
+      "destacado": true
+    },
+    {
+      "año": "2022",
+      "titulo": "“Urgencia de un Paisaje que nos Habita” .José  Mizdraji –Osvaldo Marcon .                Museo de Bellas Artes. Corrientes.            - \"Lo que nos aproxima\" Centro cultural Adolfo Mors .Corrientes .              -ARTECO 4ta Feria de Arte de Corrientes .Ex Usina de la ciudad de corrientes.         -“Encuentro Expresivo”.Jose  Mizdraji –Esteban Gómez. Asociación Cultural Inglesa               ,Ctes .           -“ Hermanos del rio” .Museo de Bellas Artes .Corrientes.            _Intercambio Grafico .Museo de Bellas Artes de Tandil. Provincia de Bs.As.",
+      "lugar": "",
+      "destacado": true
+    },
+    {
+      "año": "2021",
+      "titulo": "Anidando entre orillas-Jose Mizdraji –Fernando Lizarraga.            Multi Espacio Creativo. Marta Acosta –Resistencia Chaco –           Exposición colectiva video “Dia de la Sanidad” -invitado por Vivian Oriola .          Curadora de la Universidad de La Matanza .l          -ARTECO 3RA Feria de Arte de Corrientes –         ART WITHOUT FRONTIERS V Edition         L'Interscambio Culturale Italia/Brasile, in questo periodo buio per l'umanità, ha creato l'iniziativa                     \"ARTE SENZA FRONTIERE\"    - quarta-feira, 14 de abril de 2024",
+      "lugar": "",
+      "destacado": true
     }
   ],
   "colecciones": [],
