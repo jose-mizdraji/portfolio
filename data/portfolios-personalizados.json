@@ -9,7 +9,7 @@
       "tipo": "mixto",
       "secciones": [
         {
-          "serie": "",
+          "serie": "5aa3371c-ae81-4e5b-85f2-358e17dafc60",
           "obras": [
             "port001",
             "port002",
@@ -17,7 +17,21 @@
             "port004"
           ]
         }
-      ]
+      ],
+      "trayectoria": {
+        "incluir": true,
+        "texto": "",
+        "formacion": false
+      },
+      "premios": {
+        "incluir": true,
+        "origen": "destacados"
+      },
+      "exposiciones": {
+        "incluir": true,
+        "origen": "destacados"
+      },
+      "ubicacionExtras": "final"
     }
   ]
 }
