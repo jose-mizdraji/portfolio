@@ -22,8 +22,6 @@ import * as M from './model.js';
 const SITE_URL = new URL('.', window.location.href).href;
 
 const EMAIL_RE = /^[a-zA-Z0-9._%+\-]+@[a-zA-Z0-9.\-]+\.[a-zA-Z]{2,}$/;
-const PREMIOS_VISIBLES = 5;
-const EXPOSICIONES_VISIBLES = 6;
 
 const App = {
   cat: null,
@@ -750,9 +748,9 @@ const App = {
 
   renderTrayectoria() {
     const bio = this.cat.bio;
-    const premios = M.pickFeatured(bio.premios, PREMIOS_VISIBLES);
-    const individuales = M.pickFeatured(bio.exposicionesIndividuales, EXPOSICIONES_VISIBLES);
-    const colectivas = M.pickFeatured(bio.exposicionesColectivas, EXPOSICIONES_VISIBLES);
+    const premios = M.pickFeatured(bio.premios, M.LIMITE_PREMIOS);
+    const individuales = M.pickFeatured(bio.exposicionesIndividuales, M.LIMITE_EXPOSICIONES);
+    const colectivas = M.pickFeatured(bio.exposicionesColectivas, M.LIMITE_EXPOSICIONES);
     const hayColecciones = Array.isArray(bio.colecciones) && bio.colecciones.length;
     const hayPublicaciones = Array.isArray(bio.publicaciones) && bio.publicaciones.length;
 
@@ -943,6 +941,49 @@ const App = {
 
   // ---------- Portfolios personalizados ----------
 
+  // Trayectoria, premios y exposiciones que el portfolio decidió incluir (cada bloque por separado).
+  extrasPortfolio(ex) {
+    const parrafos = (t) => String(t || '').split(/\n+/).map(x => x.trim()).filter(Boolean);
+    const bio = this.cat.bio;
+    const bloques = [];
+
+    if (ex.trayectoria) {
+      const t = ex.trayectoria;
+      const sub = [bio.nacimiento, bio.tituloProfesional].filter(Boolean).join(' — ');
+      bloques.push(`
+        <section class="portfolio-section portfolio-extra" aria-labelledby="extra-trayectoria">
+          <h2 class="group-title" id="extra-trayectoria">Trayectoria</h2>
+          ${sub ? `<p class="portfolio-section-desc">${esc(sub)}</p>` : ''}
+          <div class="portfolio-extra-text">${parrafos(t.texto).map(x => `<p>${esc(x)}</p>`).join('')}</div>
+          ${t.formacion.length ? `<h3>Formación, becas y clínicas</h3>${this.timeline(t.formacion)}` : ''}
+        </section>`);
+    }
+
+    if (ex.premios) {
+      bloques.push(`
+        <section class="portfolio-section portfolio-extra" aria-labelledby="extra-premios">
+          <h2 class="group-title" id="extra-premios">Premios y distinciones</h2>
+          ${this.timeline(ex.premios.items)}
+        </section>`);
+    }
+
+    if (ex.exposiciones) {
+      const { individuales, colectivas } = ex.exposiciones;
+      const col = (titulo, items) => (items.length ? `<div><h3>${titulo}</h3>${this.timeline(items)}</div>` : '');
+      const dos = individuales.length && colectivas.length;
+      bloques.push(`
+        <section class="portfolio-section portfolio-extra" aria-labelledby="extra-exposiciones">
+          <h2 class="group-title" id="extra-exposiciones">Exposiciones</h2>
+          <div class="expo-columns${dos ? '' : ' expo-columns-una'}">
+            ${col('Individuales', individuales)}
+            ${col('Colectivas', colectivas)}
+          </div>
+        </section>`);
+    }
+
+    return bloques.join('');
+  },
+
   renderPortfolioPersonalizado(route) {
     const p = M.findPortfolio(this.cat, route);
     this.setRobots(true);
@@ -960,6 +1001,8 @@ const App = {
     }
 
     const sections = M.resolvePortfolio(this.cat, p);
+    const ex = M.resolveExtras(this.cat, p);
+    const extras = this.extrasPortfolio(ex);
     const titulo = p.titulo || `Portfolio ${p.enlace}`;
     const todas = sections.flatMap(s => s.works.map(w => ({ work: w, seccion: s })));
     this.lightbox = { items: todas, index: 0, portfolio: p };
@@ -993,7 +1036,9 @@ const App = {
           </div>
 
 
-          ${secHtml || this.emptyState('Este portfolio todavía no tiene obras.')}
+          ${ex.ubicacion === 'inicio' ? extras : ''}
+          ${secHtml || (extras ? '' : this.emptyState('Este portfolio todavía no tiene obras.'))}
+          ${ex.ubicacion === 'inicio' ? '' : extras}
         </div>
 
         <dialog class="lightbox" id="lightbox" aria-label="Detalle de la obra"></dialog>

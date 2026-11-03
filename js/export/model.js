@@ -5,7 +5,7 @@
 // ============================================
 
 import { fold } from '../util.js';
-import { PREFIJO_PORTFOLIO, yearRange } from '../model.js';
+import { PREFIJO_PORTFOLIO, yearRange, resolveExtras } from '../model.js';
 
 function nombreDeArchivo(artista, enlace) {
   const limpio = (s) => fold(s).replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, '');
@@ -23,9 +23,18 @@ export function buildDocModel({ cat, portfolio, sections, siteUrl }) {
     ? { texto: contacto.instagram.startsWith('@') ? contacto.instagram : `@${contacto.instagram}` }
     : null;
 
+  const obras = sections.flatMap(s => s.works);
+  const primeraConFoto = obras.find(w => w.imagenPrincipal);
+
   return {
     artista,
     subtitulo: cat.bio.subtitulo || '',
+    nacimiento: cat.bio.nacimiento || '',
+    tituloProfesional: cat.bio.tituloProfesional || '',
+    // Foto de portada: la que se eligió para el portfolio y, de reserva, la primera obra.
+    portada: portfolio.portada || '',
+    portadaAuto: primeraConFoto ? primeraConFoto.imagenPrincipal : '',
+    extras: resolveExtras(cat, portfolio),
     titulo,
     destinatario: portfolio.destinatario || '',
     descripcion: portfolio.descripcion || '',
@@ -58,7 +67,7 @@ export function buildDocModel({ cat, portfolio, sections, siteUrl }) {
 }
 
 export function allImagePaths(model) {
-  return model.secciones.flatMap(s => s.obras.map(o => o.imagen));
+  return [model.portada, model.portadaAuto, ...model.secciones.flatMap(s => s.obras.map(o => o.imagen))].filter(Boolean);
 }
 
 // Contenido textual que se repite igual en los tres formatos

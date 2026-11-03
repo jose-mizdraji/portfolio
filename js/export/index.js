@@ -1,11 +1,13 @@
 // ============================================
 // Punto de entrada de la exportación: arma el modelo del documento,
-// carga las fotos y genera el archivo en el navegador (no se sube nada
-// a ningún servidor). Se importa recién cuando alguien pide una descarga.
+// carga las fotos, lo maqueta UNA vez (layout.js) y genera el archivo
+// en el navegador (no se sube nada a ningún servidor). Se importa recién
+// cuando alguien pide una descarga.
 // ============================================
 
 import { buildDocModel, allImagePaths } from './model.js';
 import { loadAll } from './images.js';
+import { layoutDocument } from './layout.js';
 
 const FORMATOS = {
   pdf:  { ext: 'pdf',  image: { maxSide: 1800, quality: 0.86 } },
@@ -32,16 +34,21 @@ export async function exportPortfolio({ format, cat, portfolio, sections, siteUr
   const model = buildDocModel({ cat, portfolio, sections, siteUrl });
   const images = await loadAll(allImagePaths(model), fmt.image, onProgress);
 
+  // La maquetación es la misma para los tres formatos. jsPDF se usa para medir el texto
+  // (Helvetica y Times), así los renglones se cortan igual en PDF, Word y OpenDocument.
+  const { newPdfDoc, buildPdf } = await import('./pdf.js');
+  const doc = await newPdfDoc();
+  const layout = layoutDocument(model, images, doc);
+
   let blob;
   if (format === 'pdf') {
-    const { buildPdf } = await import('./pdf.js');
-    blob = await buildPdf(model, images);
+    blob = buildPdf(doc, layout, images, model);
   } else if (format === 'docx') {
     const { buildDocx } = await import('./docx.js');
-    blob = buildDocx(model, images);
+    blob = buildDocx(layout, images, model);
   } else {
     const { buildOdt } = await import('./odt.js');
-    blob = buildOdt(model, images);
+    blob = buildOdt(layout, images, model);
   }
 
   saveBlob(blob, `${model.nombreArchivo}.${fmt.ext}`);

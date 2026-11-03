@@ -39,6 +39,20 @@ function toArray(v) {
   return Array.isArray(v) ? v : [];
 }
 
+// De dónde salen los premios / exposiciones de un portfolio personalizado.
+export const ORIGENES = {
+  destacados: 'Los destacados del sitio',
+  todos: 'Todos los del sitio',
+  propios: 'Una lista propia de este portfolio'
+};
+
+// Premios y exposiciones: { año, titulo, lugar }. Se descartan los que no tienen título.
+function normalizeEntries(list) {
+  return toArray(list)
+    .filter(e => e && String(e.titulo || '').trim())
+    .map(e => ({ año: String(e.año ?? '').trim(), titulo: String(e.titulo).trim(), lugar: String(e.lugar ?? '').trim() }));
+}
+
 function timestamp(w) {
   const t = Date.parse(w.fechaCarga || '');
   return Number.isNaN(t) ? 0 : t;
@@ -112,6 +126,24 @@ export function normalizeData({ obras, series, bio, contacto, base, personalizad
       descripcion: p.descripcion || '',
       habilitado: p.habilitado !== false,
       tipo: TIPO_PERSONALIZADO[p.tipo] ? p.tipo : 'mixto',
+      portada: typeof p.portada === 'string' ? p.portada : '',
+      ubicacionExtras: p.ubicacionExtras === 'inicio' ? 'inicio' : 'final',
+      trayectoria: {
+        incluir: p.trayectoria?.incluir === true,
+        texto: typeof p.trayectoria?.texto === 'string' ? p.trayectoria.texto : '',
+        formacion: p.trayectoria?.formacion !== false
+      },
+      premios: {
+        incluir: p.premios?.incluir === true,
+        origen: ORIGENES[p.premios?.origen] ? p.premios.origen : 'destacados',
+        propios: normalizeEntries(p.premios?.propios)
+      },
+      exposiciones: {
+        incluir: p.exposiciones?.incluir === true,
+        origen: ORIGENES[p.exposiciones?.origen] ? p.exposiciones.origen : 'destacados',
+        individuales: normalizeEntries(p.exposiciones?.individuales),
+        colectivas: normalizeEntries(p.exposiciones?.colectivas)
+      },
       secciones: toArray(p.secciones).map(s => ({
         serie: s?.serie ? String(s.serie) : '',
         obras: toArray(s?.obras).filter(Boolean).map(String)
@@ -252,10 +284,56 @@ export function resolvePortfolio(cat, portfolio) {
 
 // ---------- Trayectoria ----------
 
+// Cuántos premios / exposiciones se muestran cuando no hay ninguno marcado como «destacado».
+export const LIMITE_PREMIOS = 5;
+export const LIMITE_EXPOSICIONES = 6;
+
 // Muestra solo lo "destacado" si el artista marcó algo; si no, los primeros N.
 export function pickFeatured(items, limit) {
   const list = toArray(items);
   const marked = list.filter(i => i && i.destacado);
   const shown = marked.length ? marked : list.slice(0, limit);
   return { shown, total: list.length, hasMore: list.length > shown.length };
+}
+
+/**
+ * Trayectoria, premios y exposiciones que lleva un portfolio personalizado
+ * (en la página web y en los documentos descargables). Cada bloque se elige por separado:
+ *  - trayectoria: el texto propio del portfolio o, si está vacío, la biografía general.
+ *  - premios / exposiciones: los destacados del sitio, todos, o una lista propia.
+ * Devuelve null en cada bloque que no se incluye o que quedó sin contenido.
+ */
+export function resolveExtras(cat, portfolio) {
+  const bio = cat.bio || {};
+  const out = { ubicacion: portfolio.ubicacionExtras || 'final', trayectoria: null, premios: null, exposiciones: null };
+
+  const t = portfolio.trayectoria;
+  if (t && t.incluir) {
+    const texto = t.texto.trim() ? t.texto : String(bio.biografia || '');
+    const formacion = t.formacion
+      ? toArray(bio.formacion).filter(f => f && f.titulo).map(f => ({ año: f.año || '', titulo: f.titulo, institucion: f.institucion || '' }))
+      : [];
+    if (texto.trim() || formacion.length) out.trayectoria = { texto, formacion };
+  }
+
+  const lista = (origen, general, propios, limite) => {
+    if (origen === 'propios') return propios;
+    const todas = normalizeEntries(general);
+    if (origen === 'todos') return todas;
+    const marcadas = toArray(general).filter(i => i && i.destacado && String(i.titulo || '').trim());
+    return marcadas.length ? normalizeEntries(marcadas) : todas.slice(0, limite);
+  };
+
+  const pr = portfolio.premios;
+  if (pr && pr.incluir) {
+    const items = lista(pr.origen, bio.premios, pr.propios, LIMITE_PREMIOS);
+    if (items.length) out.premios = { items };
+  }
+  const ex = portfolio.exposiciones;
+  if (ex && ex.incluir) {
+    const individuales = lista(ex.origen, bio.exposicionesIndividuales, ex.individuales, LIMITE_EXPOSICIONES);
+    const colectivas = lista(ex.origen, bio.exposicionesColectivas, ex.colectivas, LIMITE_EXPOSICIONES);
+    if (individuales.length || colectivas.length) out.exposiciones = { individuales, colectivas };
+  }
+  return out;
 }

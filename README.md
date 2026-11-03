@@ -23,11 +23,13 @@ portfolio/
 │   ├── theme.js                  # Modo claro/oscuro (se carga en el <head>, sin parpadeo)
 │   ├── export/                   # Descargas (las usa solo la página «Enlaces y descargas» del panel)
 │   │   ├── index.js              # Punto de entrada: arma el documento y lo guarda
-│   │   ├── model.js              # Estructura común a los tres formatos
+│   │   ├── model.js              # Estructura común a los tres formatos (incluye portada y bloques de trayectoria)
+│   │   ├── layout.js             # LA maquetación: qué va en cada página y dónde (mm). Una sola para los tres formatos
+│   │   ├── metrics.js            # Anchos exactos de letra de Arial / Times (para cortar los renglones igual que Word)
 │   │   ├── images.js             # Reduce las fotos a JPEG antes de incrustarlas
-│   │   ├── pdf.js                # PDF (jsPDF)
-│   │   ├── docx.js               # Word, armado a mano (WordprocessingML)
-│   │   ├── odt.js                # OpenDocument, armado a mano (ODF 1.2)
+│   │   ├── pdf.js                # PDF (jsPDF): solo dibuja lo que dice layout.js
+│   │   ├── docx.js               # Word, armado a mano (WordprocessingML): dibuja lo que dice layout.js
+│   │   ├── odt.js                # OpenDocument, armado a mano (ODF 1.2): dibuja lo que dice layout.js
 │   │   ├── zip.js, xml.js        # Utilidades de los dos anteriores
 │   └── vendor/jspdf.umd.min.js   # jsPDF 4.2.1 (MIT) — copia local, ver «Seguridad»
 ├── data/                         # Contenido editable — esto es lo que edita el CMS
@@ -97,9 +99,14 @@ En el panel: **Administrar portfolios → Portfolios personalizados**. Cada port
 |---|---|
 | **Enlace** | Lo que va después de `portfolio-`. Si ponés `MET-2026`, el portfolio queda en `…/portfolio-MET-2026`. Solo letras, números y guiones. |
 | **Habilitado** | Apagado, el enlace deja de funcionar («Este portfolio no está disponible») pero el portfolio queda guardado para reactivarlo. |
-| **Título / Destinatario / Descripción** | Textos de la portada. Destinatario y descripción son opcionales. |
+| **Título / Destinatario / Descripción** | Textos de la portada. Destinatario y descripción son opcionales. Si la descripción es muy larga y no entra en la portada, los documentos la ponen completa en una página propia («Presentación»). |
+| **Foto de portada** | Opcional. La foto grande de la portada del PDF, Word y OpenDocument: puede ser cualquier imagen, no hace falta que sea una obra. Si no se elige, se usa la primera obra del portfolio. |
 | **Tipo de contenido** | *Arte figurativo*, *Arte no figurativo* o *Mixto*. En los dos primeros, cada serie incluye solo obras de ese tipo; en *Mixto*, de ambos. |
 | **Series y obras** | Lista de secciones, en el orden en que se cargan. Cada sección elige una **serie** y, si se quiere, **obras puntuales**. |
+| **Trayectoria** | Bloque independiente. «Incluir» lo activa. Texto propio de este portfolio (párrafos separados por una línea en blanco) o, si se deja vacío, la biografía de *Inicio y Trayectoria*; opcionalmente con «Formación, becas y clínicas». |
+| **Premios y distinciones** | Bloque independiente. «Incluir» lo activa. Se elige el origen: *los destacados del sitio*, *todos los del sitio* o *una lista propia* de este portfolio (se agregan, editan y quitan ahí mismo). |
+| **Exposiciones** | Bloque independiente (individuales y colectivas). «Incluir» lo activa. Mismo origen que los premios; la lista propia tiene una parte para individuales y otra para colectivas. |
+| **Dónde van esos bloques** | *Al final* (después de las obras, antes del contacto; es lo normal) o *al principio* (después de la portada). |
 
 Reglas de las secciones:
 
@@ -118,11 +125,13 @@ El enlace completo (`https://…/portfolio-MET-2026`) es lo que se le pasa a qui
 
 Los archivos para descargar viven **solo en el panel**, no en la página pública que se comparte: quien recibe el enlace ve el portfolio y nada más.
 
-- **PDF** (A4 horizontal), **Word** (`.docx`) y **OpenDocument** (`.odt`), con portada, secciones por serie, una obra por página con su ficha técnica y página de contacto.
+- **PDF** (A4 horizontal), **Word** (`.docx`) y **OpenDocument** (`.odt`), con portada, secciones por serie, una obra por página con su ficha técnica, las páginas de Trayectoria / Premios / Exposiciones que se hayan activado y la página de contacto.
+- **Los tres se ven iguales y los dos editables se pueden modificar por completo.** Los tres formatos salen de la misma maquetación (`js/export/layout.js`): en Word y OpenDocument cada texto es un cuadro de texto editable, cada foto es una imagen que se puede cambiar o mover, y el pie de página es un pie real con número de página automático. El PDF es el modelo visual: no cambia.
+- Detalles para quien edita el Word / OpenDocument: los cuadros de texto crecen hacia abajo si se escribe más; si se agrega mucho texto, hay que revisar que no pise la foto o el pie. Se verificó medido contra el PDF en LibreOffice Writer (misma posición con menos de 0,3 mm de diferencia). El `.docx` usa las estructuras estándar de Word (cuadros de texto anclados a la página), pero **no se pudo probar en Microsoft Word propiamente dicho**: si algo se ve distinto ahí, avisar. **Google Docs no respeta los cuadros de texto flotantes**: para editar con Google Docs conviene abrir el archivo en Word o LibreOffice.
 - Los archivos se generan **en el navegador**; no se sube nada a ningún servidor. Se llaman `Jose-Mizdraji_portfolio-<enlace>.<ext>`.
 - Usan lo que está **publicado** en el sitio: un portfolio recién guardado aparece en la lista y en su enlace entre 1 y 2 minutos después (lo que tarda GitHub Pages en redeployar). Mientras tanto, «Actualizar lista» lo vuelve a buscar.
 
-Cada portfolio publicado, además, tiene su **página web** en `#portfolio-<enlace>` (se ve igual con `/portfolio-<enlace>`, ver más abajo), con lightbox para recorrer las obras (flechas del teclado, Esc para cerrar) y marcada `noindex`: se le pide a los buscadores que no la indexen.
+Cada portfolio publicado, además, tiene su **página web** en `#portfolio-<enlace>` (se ve igual con `/portfolio-<enlace>`, ver más abajo), con lightbox para recorrer las obras (flechas del teclado, Esc para cerrar), los bloques de Trayectoria / Premios / Exposiciones que se hayan activado y marcada `noindex`: se le pide a los buscadores que no la indexen.
 
 > `admin/portfolios.html` es una página de lectura: no tiene claves ni escribe nada, y muestra datos que ya son públicos. Cualquiera que conozca su dirección puede verla, igual que el resto del sitio; por eso no hay nada sensible ahí.
 
@@ -188,7 +197,7 @@ Las series de una obra y las obras de un portfolio se eligen desde una lista des
 
 Todas las imágenes van a `assets/images/`. El CMS las sube ahí automáticamente.
 
-Las descargas (PDF/Word/ODT) usan **la imagen principal de cada obra**, reducida a un máximo de 1600–1800px de lado. No incluyen la galería.
+Las descargas (PDF/Word/ODT) usan **la imagen principal de cada obra** —y la foto de portada que se haya elegido—, reducidas a un máximo de 1600–1800px de lado. No incluyen la galería.
 
 ### Sobre las rutas de las imágenes
 

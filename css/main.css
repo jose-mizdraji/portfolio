@@ -243,6 +243,12 @@ a:focus-visible, button:focus-visible, input:focus-visible, select:focus-visible
 /* Portfolio personalizado */
 .portfolio-section + .portfolio-section { margin-top: 3.5rem; }
 .portfolio-section-desc { color: var(--color-text-secondary); line-height: 1.8; max-width: 760px; margin: -0.5rem 0 1.75rem; white-space: pre-line; }
+/* Trayectoria, premios y exposiciones dentro de un portfolio personalizado */
+.portfolio-extra-text { max-width: 760px; }
+.portfolio-extra-text p { margin-bottom: 1.2rem; color: var(--color-text-secondary); line-height: 1.8; }
+.portfolio-extra h3 { font-size: 1.3rem; margin: 2.5rem 0 1.5rem; padding-bottom: 0.75rem; border-bottom: 1px solid var(--color-border); }
+.portfolio-extra .expo-columns h3 { margin-top: 0; }
+.expo-columns-una { grid-template-columns: minmax(0, 760px); }
 
 /* Visor de obra (portfolio personalizado) */
 .lightbox { border: none; padding: 0; width: min(1100px, 96vw); max-height: 94vh; margin: auto; background: var(--color-bg); color: var(--color-text); box-shadow: var(--shadow-lg); }

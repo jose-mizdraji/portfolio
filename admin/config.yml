@@ -172,7 +172,12 @@ collections:
                 hint: "Desactivá esta opción para deshabilitar el enlace sin borrar el portfolio. Atención: es solo un cierre del enlace en el sitio, no una protección; los datos del repositorio son públicos."
               - { label: Título, name: titulo, widget: string }
               - { label: "Destinatario (opcional)", name: destinatario, widget: string, required: false, hint: "Ej: Museo MALBA, Convocatoria Louvre 2025." }
-              - { label: "Descripción (opcional)", name: descripcion, widget: text, required: false }
+              - { label: "Descripción (opcional)", name: descripcion, widget: text, required: false, hint: "Va en la portada. Si es muy larga, el PDF, el Word y el OpenDocument la ponen completa en una página propia («Presentación»)." }
+              - label: "Foto de portada (opcional)"
+                name: portada
+                widget: image
+                required: false
+                hint: "Es la foto grande de la portada del PDF, el Word y el OpenDocument de este portfolio. Puede ser cualquier imagen, no hace falta que sea una de las obras. Si no elegís ninguna, se usa la primera obra del portfolio."
               - label: "Tipo de contenido"
                 name: tipo
                 widget: select
@@ -209,6 +214,90 @@ collections:
                     search_fields: ['{{obras.*.titulo}}', '{{obras.*.id}}']
                     display_fields: ['{{obras.*.titulo}}']
                     hint: "Si no elegís ninguna, entran todas las obras visibles de la serie. Si elegís, se incluyen exactamente esas, incluso las que estén ocultas en el sitio."
+
+              # Trayectoria, premios y exposiciones: cada bloque se activa y se edita POR SEPARADO.
+              # Aparecen en la página del portfolio y como páginas del PDF / Word / OpenDocument.
+              - label: "Trayectoria (opcional)"
+                name: trayectoria
+                widget: object
+                hint: "Agrega una página de Trayectoria a este portfolio. Es independiente de Premios y Exposiciones."
+                fields:
+                  - { label: "Incluir la Trayectoria en este portfolio", name: incluir, widget: boolean, default: false }
+                  - label: "Texto de la trayectoria"
+                    name: texto
+                    widget: text
+                    required: false
+                    hint: "Escribí acá el texto propio de este portfolio (separá los párrafos con una línea en blanco). Si lo dejás vacío se usa la biografía de «Inicio y Trayectoria»."
+                  - { label: "Agregar «Formación, becas y clínicas»", name: formacion, widget: boolean, default: true, hint: "Toma la lista que cargaste en «Inicio y Trayectoria»." }
+
+              - label: "Premios y distinciones (opcional)"
+                name: premios
+                widget: object
+                hint: "Agrega una página de Premios a este portfolio. Es independiente de la Trayectoria y de las Exposiciones."
+                fields:
+                  - { label: "Incluir los premios en este portfolio", name: incluir, widget: boolean, default: false }
+                  - label: "Qué premios mostrar"
+                    name: origen
+                    widget: select
+                    default: destacados
+                    options:
+                      - { label: "Los destacados del sitio (los marcados en «Inicio y Trayectoria»)", value: destacados }
+                      - { label: "Todos los del sitio", value: todos }
+                      - { label: "Una lista propia de este portfolio (la de abajo)", value: propios }
+                  - label: "Lista propia de premios"
+                    name: propios
+                    widget: list
+                    required: false
+                    summary: "{{año}} — {{titulo}}"
+                    hint: "Agregá, editá o quitá premios solo para este portfolio. Se usa únicamente si arriba elegís «Una lista propia»."
+                    fields:
+                      - { label: Año,    name: año,    widget: string, required: false }
+                      - { label: Título, name: titulo, widget: string }
+                      - { label: Lugar,  name: lugar,  widget: string, required: false }
+
+              - label: "Exposiciones (opcional)"
+                name: exposiciones
+                widget: object
+                hint: "Agrega las páginas de Exposiciones individuales y colectivas a este portfolio. Es independiente de la Trayectoria y de los Premios."
+                fields:
+                  - { label: "Incluir las exposiciones en este portfolio", name: incluir, widget: boolean, default: false }
+                  - label: "Qué exposiciones mostrar"
+                    name: origen
+                    widget: select
+                    default: destacados
+                    options:
+                      - { label: "Las destacadas del sitio (las marcadas en «Inicio y Trayectoria»)", value: destacados }
+                      - { label: "Todas las del sitio", value: todos }
+                      - { label: "Listas propias de este portfolio (las de abajo)", value: propios }
+                  - label: "Exposiciones individuales propias"
+                    name: individuales
+                    widget: list
+                    required: false
+                    summary: "{{año}} — {{titulo}}"
+                    hint: "Solo se usa si arriba elegís «Listas propias»."
+                    fields:
+                      - { label: Año,    name: año,    widget: string, required: false }
+                      - { label: Título, name: titulo, widget: string }
+                      - { label: Lugar,  name: lugar,  widget: string, required: false }
+                  - label: "Exposiciones colectivas propias"
+                    name: colectivas
+                    widget: list
+                    required: false
+                    summary: "{{año}} — {{titulo}}"
+                    hint: "Solo se usa si arriba elegís «Listas propias»."
+                    fields:
+                      - { label: Año,    name: año,    widget: string, required: false }
+                      - { label: Título, name: titulo, widget: string }
+                      - { label: Lugar,  name: lugar,  widget: string, required: false }
+
+              - label: "Dónde van la Trayectoria, los Premios y las Exposiciones"
+                name: ubicacionExtras
+                widget: select
+                default: final
+                options:
+                  - { label: "Al final (después de las obras, antes del contacto)", value: final }
+                  - { label: "Al principio (después de la portada, antes de las obras)", value: inicio }
+                hint: "Solo cambia el orden de las páginas; los bloques que no actives no aparecen."
 
       - name: base-figurativo-no-figurativo
         label: Portfolios base (Arte Figurativo y No Figurativo)
